@@ -25,7 +25,11 @@ prepare:
 	mkdir -p build
 
 sync: all
-	cp -R src *.txt build alto/ietf/mp-alto
+	rsync -avz --exclude .git/ --exclude alto/ ./* alto/ietf/mp-alto/alto-draft
+
+sync-back:
+	git checkout -B sync
+	rsync -avz alto/ietf/mp-alto/alto-draft/ .
 
 clean:
 	@rm -rf $(output)
