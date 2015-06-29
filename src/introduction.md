@@ -6,7 +6,7 @@ defines several "maps" to publish network information to applications so that
 both the network providers and the application users can achieve better
 performances.
 
-<!-- Motivation: there are different implementations [[[ -->
+<!-- Motivation: the fact that there are different sources [[[ -->
 
 Extracting information out of the network has been a widely-studied research
 topic.  Due to financial, technical and security reasons it is hard to fetch the
@@ -31,7 +31,15 @@ formats still varies.
 <!-- ]]] -->
 
 
-<!-- Motivation: reusable [[[ -->
+<!-- Motivation: the need to reuse and aggregate information [[[ -->
+
+
+
+<!-- ]]] -->
+
+<!-- Motivation: reusable functionalities [[[ -->
+
+
 
 <!-- ]]] -->
 

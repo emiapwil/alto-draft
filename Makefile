@@ -4,7 +4,7 @@ genbibfiles=$(patsubst src/references/%.bibtex, build/reference.%.xml, $(wildcar
 genxmlfiles=$(patsubst src/%.md, build/%.xml.gen, $(wildcard src/*.md))
 rawxmlfiles=$(patsubst src/%.xml, build/%.xml, $(shell find src/ -type f -name  '*.xml'))
 
-target=$(patsubst src/%.xml, build/%.xml, src/draft-template.xml)
+target=$(patsubst src/%.xml, build/%.xml, $(wildcard src/draft-*.xml))
 output=$(patsubst build/%.xml, %.txt, $(target))
 
 stylefile=../common/pandoc2rfc/transform.xsl
