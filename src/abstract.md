@@ -1,7 +1,7 @@
-<!-- why we need to design a cross-platform ALTO server [[[-->
+<!-- why we need to design a multi-source ALTO server [[[-->
 
 This document shares the experience of designing and implementing a
-cross-platform ALTO server. A major motivation is that [](#RFC7285) only
+multi-source ALTO server. A major motivation is that [](#RFC7285) only
 specifies the output format for ALTO services so it has no constraints on the
 internal structure of a server. Even though different implementations may and
 should have different internal representations for efficiency reasons, they can

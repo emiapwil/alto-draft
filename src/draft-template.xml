@@ -6,14 +6,15 @@
 <!ENTITY design PUBLIC '' 'design.xml.gen'>
 <!ENTITY RFC2119 PUBLIC '' 'reference.RFC.2119.xml'>
 <!ENTITY RFC7285 PUBLIC '' 'reference.RFC.7285.xml'>
+<!ENTITY NOX PUBLIC '' 'reference.nox.2008.xml'>
 ]>
 
 <?rfc strict="yes"?>
 <?rfc toc="yes"?>
 
-<rfc ipr='trust200902' docName='draft-gao-crossplatform-alto-impl-00'>
+<rfc ipr='trust200902' docName='draft-gao-multi-source-alto-impl-00'>
   <front>
-    <title>Design and Implementation of Cross-Platform ALTO Servers</title>
+    <title>Design and Implementation of Multi-Source ALTO Servers</title>
     &author-gk;
     <date/>
     <abstract>
@@ -30,6 +31,10 @@
     <references title="Normative References">
       &RFC2119;
       &RFC7285;
+    </references>
+
+    <references title="Informative References">
+      &NOX;
     </references>
   </back>
 </rfc>
