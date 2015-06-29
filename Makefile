@@ -24,6 +24,9 @@ build/%.xml: src/%.xml prepare
 prepare:
 	mkdir -p build
 
+sync: all
+	cp -R src *.txt build alto/ietf/mp-alto
+
 clean:
 	@rm -rf $(output)
 	@rm -rf build

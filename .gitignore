@@ -1,6 +1,8 @@
 *.swp
 build
 .zshhistory
+alto
+draft*.txt
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
