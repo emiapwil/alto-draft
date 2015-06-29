@@ -1,17 +1,18 @@
 <?xml version='1.0' ?>
 <!DOCTYPE rfc SYSTEM 'rfc2629.dtd' [
-<!ENTITY abstract PUBLIC '' 'test.xml.gen'>
-<!ENTITY content PUBLIC '' 'content.xml.gen'>
+<!ENTITY author-gk PUBLIC '' 'gaokai.xml'>
+<!ENTITY abstract PUBLIC '' 'abstract.xml.gen'>
+<!ENTITY introduction PUBLIC '' 'introduction.xml.gen'>
+<!ENTITY design PUBLIC '' 'design.xml.gen'>
+<!ENTITY RFC2119 PUBLIC '' 'reference.RFC.2119.xml'>
+<!ENTITY RFC7285 PUBLIC '' 'reference.RFC.7285.xml'>
 ]>
 
 <?rfc toc="yes"?>
-<rfc ipr='trust200902' docName='draft-example'>
+<rfc ipr='trust200902' docName='draft-gao-crossplatform-alto-impl-00'>
   <front>
-    <title>Test How to Use Pandoc to Generate Internet Drafts</title>
-    <author fullname="Kai GAO">
-      <organization>Tsinghua University</organization>
-      <address><phone>+8615120003793</phone></address>
-    </author>
+    <title>Design and Implementation of Cross-Platform ALTO Servers</title>
+    &author-gk;
     <date/>
     <abstract>
       &abstract;
@@ -19,10 +20,14 @@
   </front>
 
   <middle>
-    &content;
+    &introduction;
+    &design;
   </middle>
 
-
   <back>
+    <references title="Normative References">
+      &RFC2119;
+      &RFC7285;
+    </references>
   </back>
 </rfc>
