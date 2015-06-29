@@ -8,7 +8,9 @@
 <!ENTITY RFC7285 PUBLIC '' 'reference.RFC.7285.xml'>
 ]>
 
+<?rfc strict="yes"?>
 <?rfc toc="yes"?>
+
 <rfc ipr='trust200902' docName='draft-gao-crossplatform-alto-impl-00'>
   <front>
     <title>Design and Implementation of Cross-Platform ALTO Servers</title>
