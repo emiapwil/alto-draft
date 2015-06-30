@@ -46,7 +46,7 @@ formats still varies.
 [](#framework-design) introduces the architecture for a multi-source ALTO
 server framework.
 
-## Requirements
+## Requirements Language
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be

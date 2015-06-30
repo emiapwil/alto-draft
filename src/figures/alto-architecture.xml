@@ -1,0 +1,37 @@
+      <figure title="Basic ALTO Architecture" anchor="ALTOArchitecture">
+      <artwork><![CDATA[
++-------------------------------------------------------------------+
+|                         Network Region                            |
+|                                                                   |
+|                    +-----------+                                  |
+|                    | Routing   |                                  |
+|  +--------------+  | Protocols |                                  |
+|  | Provisioning |  +-----------+                                  |
+|  | Policy       |        |                                        |
+|  +--------------+\       |                                        |
+|                   \      |                                        |
+|                    \     |                                        |
+|  +-----------+      \+---------+                      +--------+  |
+|  |Dynamic    |       | ALTO    | ALTO Protocol        | ALTO   |  |
+|  |Network    |.......| Server  | ==================== | Client |  |
+|  |Information|       +---------+                      +--------+  |
+|  +-----------+      /                                /            |
+|                    /         ALTO SD Query/Response /             |
+|                   /                                /              |
+|          +----------+                  +----------------+         |
+|          | External |                  | ALTO Service   |         |
+|          | Interface|                  | Discovery (SD) |         |
+|          +----------+                  +----------------+         |
+|               |                                                   |
++-------------------------------------------------------------------+
+                |
+      +------------------+
+      | Third Parties    |
+      |                  |
+      | Content Providers|
+      +------------------+
+        ]]>
+      </artwork>
+      </figure>
+
+

@@ -9,16 +9,18 @@ output=$(patsubst build/%.xml, %.txt, $(target))
 
 stylefile=../common/pandoc2rfc/transform.xsl
 
-all: prepare $(genxmlfiles) $(rawxmlfiles) $(genbibfiles)
+all: $(output)
+
+$(output): $(target) $(genxmlfiles) $(rawxmlfiles) $(genbibfiles)
 	xml2rfc $(target) -o $(output) --text
 
-build/%.xml.gen: src/%.md prepare
+build/%.xml.gen: src/%.md
 	pandoc $(PANDOC_OPT) $< | xsltproc --nonet $(stylefile) - > $@
 
-build/reference.%.xml: src/references/%.bibtex prepare
+build/reference.%.xml: src/references/%.bibtex
 	python2.7 ../common/bibtex2rfc/bibxml.py $< > $@
 
-build/%.xml: src/%.xml prepare
+build/%.xml: src/%.xml
 	cp $< build
 
 prepare:

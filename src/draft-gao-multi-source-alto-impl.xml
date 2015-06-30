@@ -5,24 +5,41 @@
 <!ENTITY abstract PUBLIC '' 'abstract.xml.gen'>
 <!ENTITY introduction PUBLIC '' 'introduction.xml.gen'>
 <!ENTITY design PUBLIC '' 'design.xml.gen'>
+<!ENTITY considerations-and-acknowledgements PUBLIC '' 'considerations-and-acknowledgements.xml.gen'>
+
+<!ENTITY RFC5693 PUBLIC '' 'reference.RFC.5693.xml'>
 <!ENTITY RFC2119 PUBLIC '' 'reference.RFC.2119.xml'>
 <!ENTITY RFC7285 PUBLIC '' 'reference.RFC.7285.xml'>
 <!ENTITY NOX PUBLIC '' 'reference.nox.2008.xml'>
+<!ENTITY draft-amante-i2rs-topology-use-cases PUBLIC '' 'reference.I-D.draft-amante-i2rs-topology-use-cases-01.xml'>
+<!ENTITY draft-lee-alto-app-net-info-exchange PUBLIC '' 'reference.I-D.draft-lee-alto-app-net-info-exchange-02.xml'>
+<!ENTITY draft-clemm-i2rs-yang-network-topo PUBLIC '' 'reference.I-D.draft-clemm-i2rs-yang-network-topo-01.xml'>
 ]>
 
-<?rfc strict="yes"?>
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<?rfc strict="yes" ?>
+<?rfc comments="yes" ?>
+<?rfc inline="yes" ?>
+<?rfc editing="no" ?>
 <?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
 <?rfc tocdepth="3"?>
-<?rfc sortrefs="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
 
 <rfc ipr='trust200902' docName='draft-gao-multi-source-alto-impl-00'>
   <front>
-    <title>Design and Implementation of Multi-Source ALTO Servers</title>
+    <title abbrev="Multi-Source ALTO Server">Design and Implementation of Multi-Source ALTO Servers</title>
 
     &author-gk;
     &author-yry;
 
-    <date/>
+    <date day="6" month="July" year="2015" />
+
+    <area>Application Area</area>
     <workgroup>ALTO WG</workgroup>
 
 
@@ -34,16 +51,21 @@
   <middle>
     &introduction;
     &design;
+    &considerations-and-acknowledgements;
   </middle>
 
   <back>
     <references title="Normative References">
-      &RFC7285;
       &RFC2119;
     </references>
 
     <references title="Informative References">
       &NOX;
+      &RFC5693;
+      &RFC7285;
+      &draft-amante-i2rs-topology-use-cases;
+      &draft-lee-alto-app-net-info-exchange;
+      &draft-clemm-i2rs-yang-network-topo;
     </references>
   </back>
 </rfc>
