@@ -2,41 +2,29 @@
 # Framework Design
 
 ## Overview
+<!-- [[[ -->
 
-<!-- figure for alto architecture [[[-->
+### Frontend and Backend
 
-<!-- indent by 4 spaces to include it as a figure -->
+Similar to the service model in [](#fig:alto-service-model), the ALTO server
 
-    +-------------------------------------------------------------------+
-    |                         Network Region                            |
-    |                                                                   |
-    |                    +-----------+                                  |
-    |                    | Routing   |                                  |
-    |  +--------------+  | Protocols |                                  |
-    |  | Provisioning |  +-----------+                                  |
-    |  | Policy       |        |                                        |
-    |  +--------------+\       |                                        |
-    |                   \      |                                        |
-    |                    \     |                                        |
-    |  +-----------+      \+---------+                      +--------+  |
-    |  |Dynamic    |       | ALTO    | ALTO Protocol        | ALTO   |  |
-    |  |Network    |.......| Server  | ==================== | Client |  |
-    |  |Information|       +---------+                      +--------+  |
-    |  +-----------+      /                                /            |
-    |                    /         ALTO SD Query/Response /             |
-    |                   /                                /              |
-    |          +----------+                  +----------------+         |
-    |          | External |                  | ALTO Service   |         |
-    |          | Interface|                  | Discovery (SD) |         |
-    |          +----------+                  +----------------+         |
-    |               |                                                   |
-    +-------------------------------------------------------------------+
-                    |
-          +------------------+
-          | Third Parties    |
-          |                  |
-          | Content Providers|
-          +------------------+
-^[fig:alto-architecture::Architecture of ALTO]
+<!-- ]]] -->
+
+## Backend Management
+<!-- [[[ -->
+
+### Message Format
+
+<!-- ]]] -->
+
+## IRD Management
+<!-- [[[ -->
+
+The main functionality of an IRD is to organize the backends.
+
+### Message Format
+### Access Control of Properties
+### Filtered IRD
+### Multi-homing
 
 <!-- ]]] -->

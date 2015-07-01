@@ -1,6 +1,8 @@
 
 #Introduction
 
+## Problem Statement
+
 The "Application-Layer Traffic Optimization" protocol proposed in [](#RFC7285)
 defines several "maps" to publish network information to applications so that
 both the network providers and the application users can make better decisions

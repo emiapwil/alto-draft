@@ -5,6 +5,7 @@
 <!ENTITY abstract PUBLIC '' 'abstract.xml.gen'>
 <!ENTITY introduction PUBLIC '' 'introduction.xml.gen'>
 <!ENTITY design PUBLIC '' 'design.xml.gen'>
+<!ENTITY advanced-topics PUBLIC '' 'advanced-topics.xml.gen'>
 <!ENTITY considerations-and-acknowledgements PUBLIC '' 'considerations-and-acknowledgements.xml.gen'>
 
 <!ENTITY RFC5693 PUBLIC '' 'reference.RFC.5693.xml'>
@@ -51,6 +52,7 @@
   <middle>
     &introduction;
     &design;
+    &advanced-topics;
     &considerations-and-acknowledgements;
   </middle>
 
