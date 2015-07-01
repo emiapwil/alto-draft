@@ -3,11 +3,55 @@
 
 ## Problem Statement
 
+<!-- [[[ -->
+
+<!-- service model not complete [[[ -->
+
 The "Application-Layer Traffic Optimization" protocol proposed in [](#RFC7285)
 defines several "maps" to publish network information to applications so that
 both the network providers and the application users can make better decisions
-on traffic steering and eventually achieve better performances.  The fundamental
-step to fulfill the promise is to gather the information on the network.
+on traffic steering and eventually achieve better performance.  However by
+specifying the communication protocol between ALTO clients and servers,
+[](#RFC7285) only describes part of the service model.  Since it is relatively
+simpler to apply ALTO on the client's side, in this document we focus on the
+service model of ALTO servers.
+
+A fundamental part that is missing on the server's side is to collect
+information from what we call "information sources" and it consists the
+right-hand side of a more complete service model for ALTO servers described in
+[](#fig:alto-service-model).
+
+
+!!Maybe we can specify message formats for common implementations!!
+
+- Manually configured maps
+- End-to-End statistics
+- Link statistics
+
+<!-- Figure: alto-service-model [[[ -->
+
+
+                            +--------+  Method 1 +---------------+
+                   ALTO     |        | <---------+  Information  |
+    +----------+  Protocol  |        |           |   Source  1   |
+    |   ALTO   | <--------> |        |           +---------------+
+    |  Client  |            |        |
+    +----------+            |        |  Method 2 +---------------+
+                            |  ALTO  | <---------+  Information  |
+                            | Server |           |   Source  2   |
+    +----------+   ALTO     |        |           +---------------+
+    |   ALTO   |  Protocol  |        |
+    |  Client  | <--------> |        |  Method 3 +---------------+
+    +----------+            |        | <---------+  Information  |
+                            |        |           |   Source  3   |
+                            +--------+           +---------------+
+^[fig:alto-service-model::Service Model for an ALTO server]
+
+<!-- ]]] -->
+
+
+<!-- ]]] -->
+
 
 <!-- Motivation: the fact that there are different sources [[[ -->
 
@@ -40,22 +84,9 @@ described as it is shown in [](#fig:alto-service-model).
 
 <!-- ]]] -->
 
+<!-- ]]] -->
 
-                            +--------+  Method 1 +---------------+
-                   ALTO     |        | <---------+  Information  |
-    +----------+  Protocol  |        |           |   Source  1   |
-    |   ALTO   | <--------> |        |           +---------------+
-    |  Client  |            |        |
-    +----------+            |        |  Method 2 +---------------+
-                            |  ALTO  | <---------+  Information  |
-                            | Server |           |   Source  2   |
-    +----------+   ALTO     |        |           +---------------+
-    |   ALTO   |  Protocol  |        |
-    |  Client  | <--------> |        |  Method 3 +---------------+
-    +----------+            |        | <---------+  Information  |
-                            |        |           |   Source  3   |
-                            +--------+           +---------------+
-^[fig:alto-service-model::Service Model for an ALTO server]
+
 
 <!-- Motivation: the need to reuse and aggregate meta information [[[ -->
 
