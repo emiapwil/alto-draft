@@ -33,6 +33,9 @@ sync-back:
 	git checkout -B sync
 	rsync -avz alto/ietf/mp-alto/alto-draft/ .
 
+view: all
+	vim $(output)
+
 clean:
 	@rm -rf $(output)
 	@rm -rf build
