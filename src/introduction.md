@@ -86,8 +86,6 @@ described as it is shown in [](#fig:alto-service-model).
 
 <!-- ]]] -->
 
-
-
 <!-- Motivation: the need to reuse and aggregate meta information [[[ -->
 
 
