@@ -25,7 +25,7 @@
 <?rfc editing="no" ?>
 <?rfc toc="yes"?>
 <?rfc tocompact="yes"?>
-<?rfc tocdepth="3"?>
+<?rfc tocdepth="2"?>
 <?rfc symrefs="yes"?>
 <?rfc sortrefs="yes" ?>
 <?rfc compact="yes" ?>
@@ -33,7 +33,7 @@
 
 <rfc ipr='trust200902' docName='draft-gao-multi-source-alto-impl-00'>
   <front>
-    <title abbrev="Multi-Source ALTO Server">Design and Implementation of Multi-Source ALTO Servers</title>
+    <title abbrev="ALTO Server Implementation">Design and Implementation of Multi-Source ALTO Servers</title>
 
     &author-gk;
     &author-yry;

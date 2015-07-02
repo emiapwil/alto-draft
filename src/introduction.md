@@ -1,8 +1,6 @@
 
 #Introduction
 
-## Problem Statement
-
 <!-- [[[ -->
 
 <!-- service model not complete [[[ -->
@@ -11,22 +9,15 @@ The "Application-Layer Traffic Optimization" protocol proposed in [](#RFC7285)
 defines several "maps" to publish network information to applications so that
 both the network providers and the application users can make better decisions
 on traffic steering and eventually achieve better performance.  However by
-specifying the communication protocol between ALTO clients and servers,
-[](#RFC7285) only describes part of the service model.  Since it is relatively
-simpler to apply ALTO on the client's side, in this document we focus on the
-service model of ALTO servers.
+specifying the protocol between ALTO clients and servers, [](#RFC7285) only
+describes part of the service model.  In this document we focus on the service
+model of ALTO servers and in [](#advanced-topics) we discuss a little about what
+can be done on the client's side.
 
-A fundamental part that is missing on the server's side is to collect
-information from what we call "information sources" and it consists the
-right-hand side of a more complete service model for ALTO servers described in
-[](#fig:alto-service-model).
-
-
-!!Maybe we can specify message formats for common implementations!!
-
-- Manually configured maps
-- End-to-End statistics
-- Link statistics
+A fundamental functionality of the ALTO server is to collect information from
+what we call "information sources".  It is not surprising that there are many
+different information sources and thus we can describe a more complete service
+model for the server's side in [](#fig:alto-service-model).
 
 <!-- Figure: alto-service-model [[[ -->
 
@@ -49,59 +40,38 @@ right-hand side of a more complete service model for ALTO servers described in
 
 <!-- ]]] -->
 
+<!-- ]]] -->
+
+<!-- protocol for common server-is communication [[[ -->
+
+Since the relationships between ALTO servers and information sources can be very
+complex, as discussed in [](#information-sources), the communication between
+them can hardly be unified.  Nevertheless, it is still possible and beneficial
+to design a generic protocol to collect statistics for certain implementation
+patterns.  [](#alto-sc-protocol) introduces the proposed protocol format in
+details.
 
 <!-- ]]] -->
 
+<!-- ird extensions [[[ -->
 
-<!-- Motivation: the fact that there are different sources [[[ -->
-
-Extracting information out of the network has been a widely-studied research
-topic.  Due to financial, technical and security reasons it is hard to fetch the
-required data directly from ISPs, thus many efforts have been made to measure
-different metrics using endpoint-based tools.  Since most of these tools require
-little support from the network infrastructure, lots of them can still work even
-if the Internet architecture evolves.  These measurement techniques can be
-valuable sources to ALTO services as the measured results often reflect the
-actual performance of the network.
-
-At the same time, Software-Defined Networking makes it much easier for ALTO
-service providers to gather information with the centralized programming
-paradigm and the global view.  However, there have been plenty of SDN
-controller implementations ever since the very first [](#NOX) system.  These
-controllers are implemented in different programming languages such as C/C++,
-Java and Python, and have different data structures to store the network
-information.  Even though RESTful APIs are provided by most controllers, the
-formats still varies and different ALTO instances may be interested in different
-information.  For example, most cost maps only require the topology view but a
-QoS-first cost map also needs bandwidth statistics.
-
-<!-- TODO at least two examples of different topology presentations -->
-
-While there are many different ways to gather and store the network information,
-ALTO protocol, which is used between ALTO servers and ALTO clients, is already
-well-defined in [](#RFC7285).  Thus the service model for an ALTO server can be
-described as it is shown in [](#fig:alto-service-model).
+Another problem arising with multiple information resources is how a single ALTO
+server can host together different implementations of ALTO services.  This
+problem is related to the management of IRD resources.  Unlike those providing
+network statistics, which may vary, the information sources for IRD service are
+very much alike.  [](#ird-extensions) discusses how to solve this problem and,
+furthermore, introduces several extensions on top of the basic IRD service.
 
 <!-- ]]] -->
 
-<!-- ]]] -->
+<!-- service discovery/selection [[[ -->
 
-<!-- Motivation: the need to reuse and aggregate meta information [[[ -->
-
-
-
-<!-- ]]] -->
-
-<!-- Motivation: reusable functionalities [[[ -->
-
-It is also obvious that requests for maps generated from different sources still
-share some common routines related to the ALTO protocol and other basic
-functionalities.
+At the same time, some real-world issues exist for the ALTO clients: how to
+discover the services and how to choose between different candidates.
+[](#advanced-topics) discusses these problems and provides some useful
+solutions.
 
 <!-- ]]] -->
-
-[](#framework-design) introduces the architecture for a multi-source ALTO
-server framework.
 
 ## Requirements Language
 
