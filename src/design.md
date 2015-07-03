@@ -1,6 +1,5 @@
 
 # ALTO Servers and Information Sources
-
 This section introduces the concept of "information sources" and discusses the
 possible relationships between an ALTO server and an information source.
 Furthermore, a protocol is proposed for the communication between server
@@ -65,7 +64,8 @@ major kinds of information sources:
 
 <!-- ]]] -->
 
-## The Relationships between ALTO Servers and Information Sources { #relationships }
+## Relationship Analysis { #relationships }
+<!-- [[[ -->
 
 The complexity of the relationships between ALTO servers and information sources
 comes from the following aspects:
@@ -127,78 +127,27 @@ We identify three types of coupling ALTO servers and information sources.
 <!-- [[[ -->
 
 The capabilities of an information source determine what information can be
-provided.  In the context of gathering statistics, the capabilities represent
-not only the type of a
+provided and are determined by the type of the information source and the
+limitation of the targeted network, both of which can vary significantly.
 
 <!-- ]]] -->
 
-
-<!-- Motivation: the fact that there are different sources [[[ -->
-
-Extracting information out of the network has been a widely-studied research
-topic.
-
-At the same time, Software-Defined Networking makes it much easier for ALTO
-service providers to gather information with the centralized programming
-paradigm and the global view.  However, there have been plenty of SDN
-controller implementations ever since the very first [](#NOX) system.  These
-controllers are implemented in different programming languages such as C/C++,
-Java and Python, and have different data structures to store the network
-information.  Even though RESTful APIs are provided by most controllers, the
-formats still varies and different ALTO instances may be interested in different
-information.  For example, most cost maps only require the topology view but a
-QoS-first cost map also needs bandwidth statistics.
-
-<!-- TODO at least two examples of different topology presentations -->
-
 <!-- ]]] -->
 
-## Proposed Protocol { #alto-sc-protocol }
-
-<!-- ]]] -->
-
-<!-- Motivation: the need to reuse and aggregate meta information [[[ -->
-
-
-
-<!-- ]]] -->
-
-<!-- Motivation: reusable functionalities [[[ -->
-
-It is also obvious that requests for maps generated from different sources still
-share some common routines related to the ALTO protocol and other basic
-functionalities.
-
-<!-- ]]] -->
-
-
-<!-- ]]] -->
-
-
+## Protocol Design { #alto-sc-protocol }
 <!-- [[[ -->
-
-## Frontend and Backend
-
-Similar to the service model in [](#fig:alto-service-model), the ALTO server
+<!-- ]]] -->
 
 <!-- ]]] -->
 
-# Framework Design
-## Backend Management
-<!-- [[[ -->
-
-### Message Format
-
-<!-- ]]] -->
-
-## IRD Extensions
+# IRD Extensions
 <!-- [[[ -->
 
 The main functionality of an IRD is to organize the backends.
 
-### Message Format
-### Access Control of Properties
-### Filtered IRD
-### Multi-homing
+## Message Format
+## Access Control of Properties
+## Filtered IRD
+## Multi-homing
 
 <!-- ]]] -->
