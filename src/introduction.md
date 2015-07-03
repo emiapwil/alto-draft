@@ -22,20 +22,20 @@ model for the server's side in [](#fig:alto-service-model).
 <!-- Figure: alto-service-model [[[ -->
 
 
-                            +--------+  Method 1 +---------------+
-                   ALTO     |        | <---------+  Information  |
-    +----------+  Protocol  |        |           |   Source  1   |
-    |   ALTO   | <--------> |        |           +---------------+
+                            +--------+  Method #1 +---------------+
+                   ALTO     |        | <----------+  Information  |
+    +----------+  Protocol  |        |            |   Source #1   |
+    |   ALTO   | <--------> |        |            +---------------+
     |  Client  |            |        |
-    +----------+            |        |  Method 2 +---------------+
-                            |  ALTO  | <---------+  Information  |
-                            | Server |           |   Source  2   |
-    +----------+   ALTO     |        |           +---------------+
+    +----------+            |        |  Method #2 +---------------+
+                            |  ALTO  | <----------+  Information  |
+                            | Server |            |   Source #2   |
+    +----------+   ALTO     |        |            +---------------+
     |   ALTO   |  Protocol  |        |
-    |  Client  | <--------> |        |  Method 3 +---------------+
-    +----------+            |        | <---------+  Information  |
-                            |        |           |   Source  3   |
-                            +--------+           +---------------+
+    |  Client  | <--------> |        |  Method #3 +---------------+
+    +----------+            |        | <----------+  Information  |
+                            |        |            |   Source #3   |
+                            +--------+            +---------------+
 ^[fig:alto-service-model::Service Model for an ALTO server]
 
 <!-- ]]] -->
@@ -45,7 +45,7 @@ model for the server's side in [](#fig:alto-service-model).
 <!-- protocol for common server-is communication [[[ -->
 
 Since the relationships between ALTO servers and information sources can be very
-complex, as discussed in [](#information-sources), the communication between
+complex, as discussed in [](#relationships), the communication between
 them can hardly be unified.  Nevertheless, it is still possible and beneficial
 to design a generic protocol to collect statistics for certain implementation
 patterns.  [](#alto-sc-protocol) introduces the proposed protocol format in
