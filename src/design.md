@@ -1,5 +1,5 @@
 
-# ALTO Servers and Information Sources
+# ALTO Servers and Information Sources { #alto-info-sources }
 This section introduces the concept of "information sources" and discusses the
 possible relationships between an ALTO server and an information source.
 Furthermore, a protocol is proposed for the communication between server
@@ -126,16 +126,86 @@ We identify three types of coupling ALTO servers and information sources.
 ### Capabilities of Information Sources
 <!-- [[[ -->
 
-The capabilities of an information source determine what information can be
-provided and are determined by the type of the information source and the
+The capabilities of an information source which declare the types of available
+information are determined by the type of the information source and the
 limitation of the targeted network, both of which can vary significantly.
 
 <!-- ]]] -->
 
 <!-- ]]] -->
 
-## Protocol Design { #alto-sc-protocol }
+<!-- ]]] -->
+
+## Protocol Design { #alto-info-protocol }
 <!-- [[[ -->
+
+As described above it is difficult to define a unified protocol to cover the
+need of ALL ALTO server implementations.  However, we can narrow down the
+demands by establishing clear boundaries and focus on the most general and
+most commonly used requirements.  Two internal representations of an ALTO
+information service are introduced, exploiting the limitation of the current
+ALTO specification, especially for the network map service.  Based on these two
+representations, we discuss how they can fit in the ALTO framework by extending
+[](#RFC7285).
+
+### Internal Structures of ALTO Implementations
+<!-- [[[ -->
+
+Two implementation choices are identified for ALTO services as discussed below.
+It can be seen that both structures are highly related to and can reflect the
+information sources they use.
+
+- End-to-End
+<!-- [[[ -->
+
+    In an end-to-end implementation, the network is represented as a full-mesh
+    graph in which case the links are implicit and can be ignored.  This can
+    happen when the corresponding information source collects the information
+    either by conducting end-to-end measurement methods itself or by making
+    request to other information resources, whether it is forced to do so
+    because of not having the condition or priority to get topological
+    information or as an intentional choice.
+
+<!-- ]]] -->
+- Topological
+<!-- [[[ -->
+
+    In this case the server is using a graph with explicit nodes and links, to
+    represent a network.  The graph is usually sparse and may have internal
+    nodes that are transparent to the ALTO clients.  Such examples are servers
+    retrieving topology information from a SDN controller, from a data
+    aggregator such as CAIDA, or simply from a configuration parser.
+
+<!-- ]]] -->
+
+### Limitations of Current ALTO Specification
+
+As it is mentioned in [](#information-sources), the ALTO servers are actually
+information sources.  It can be seen that the current ALTO specifications only
+leverage end-to-end information to the clients, which is probably good enough
+for a single user to choose between several destinations, however, they are
+neither capable of handling demands for coordinated flow scheduling scenarios
+like in data centers, nor publishing topological information.
+
+<!-- ]]] -->
+
+### Extended Specification for ALTO Services
+<!-- [[[ -->
+
+The limitations are in fact quite related.
+
+<!-- ]]] -->
+
+### Network Elements
+<!-- [[[ -->
+
+In [](#RFC7285) a network map is represented as a list of end points.  Such a
+definition
+
+<!-- ]]] -->
+
+
+<!-- Network Statistics Collection [[[ -->
 <!-- ]]] -->
 
 <!-- ]]] -->
@@ -143,11 +213,30 @@ limitation of the targeted network, both of which can vary significantly.
 # IRD Extensions
 <!-- [[[ -->
 
-The main functionality of an IRD is to organize the backends.
+Unlike other ALTO services defined in [](#RFC7285), whose communications with
+information sources can vary, the Information Resource Directory (IRD) service
+is relatively simple and well-defined.  In this section we introduce several
+extensions on this particular ALTO service, including:
 
-## Message Format
-## Access Control of Properties
+- Management;
+- Filtering on IRD entries;
+- New specifications of capabilities that are useful in real-world deployment.
+
+<!-- ]]] -->
+
+## Entry Management
+
+Interfaces for registration/unregistration.
+
 ## Filtered IRD
+
+Motivation:
+
+- Performance
+- Automation
+
 ## Multi-homing
+
+## Redistribution
 
 <!-- ]]] -->

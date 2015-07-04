@@ -48,7 +48,7 @@ Since the relationships between ALTO servers and information sources can be very
 complex, as discussed in [](#relationships), the communication between
 them can hardly be unified.  Nevertheless, it is still possible and beneficial
 to design a generic protocol to collect statistics for certain implementation
-patterns.  [](#alto-sc-protocol) introduces the proposed protocol format in
+patterns.  [](#alto-info-protocol) introduces the proposed protocol format in
 details.
 
 <!-- ]]] -->

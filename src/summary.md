@@ -23,7 +23,7 @@ started, I can think of two basic and probably most common implementation
 choices, and they both can have multiple different information sources:
 
 - End-to-End:
-  The server builds its maps using an full-mesh internal representation.  This
+  The server builds its maps using a full-mesh internal representation.  This
   can happen if the server is using end-to-end measurement methods or it just
   doesn't have the priority to fetch topology information.
 
