@@ -275,13 +275,17 @@ The data component of an extended network map service is named
         } InfoResourceExtNetworkMap : ResponseEntityBase;
 
         object {
-            EndpointData        endpoints;
-            LinkData            links<0..1>;
+            NodeData            nodes;
+            [LinkData            links;]
         } ExtNetworkMapData;
 
         object-map {
-            PIDName -> EndpointAddrGroup;
+            NodeName -> NodeDesc;
         } EndpointData;
+
+        object {
+            [JSONBool            internal;]
+        } PIDDesc : EndpointAddrGroup;
 
         object-map {
             LINKName -> LinkDesc;
@@ -289,14 +293,16 @@ The data component of an extended network map service is named
 
         object {
             JSONString          pid<2..2>;
+            LinkPropertyType -> JSONValue;
         } LinkDesc;
 
 If the "type" field in the capabilities is "end-to-end", there MUST be no
-"links" field in the data component and ALTO clients MUST ignore the field if it
-is mistakenly provided.
+"links" field in the data component and no "internal" field in any node
+description.  At the same time, ALTO clients MUST ignore these fields if they
+are mistakenly provided.
 
-If the "type" field in the capabilities is "topological", the "links" field MUST
-be provided.
+If the "type" field in the capabilities is "topological", the "links" field and
+the "internal" field MUST be provided.
 
 <!-- ]]] -->
 
