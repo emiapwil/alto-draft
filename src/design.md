@@ -141,12 +141,18 @@ limitation of the targeted network, both of which can vary significantly.
 
 As described above it is difficult to define a unified protocol to cover the
 need of ALL ALTO server implementations.  However, we can narrow down the
-demands by establishing clear boundaries and focus on the most general and
-most commonly used requirements.  Two internal representations of an ALTO
-information service are introduced, exploiting the limitation of the current
-ALTO specification, especially for the network map service.  Based on these two
-representations, we discuss how they can fit in the ALTO framework by extending
-[](#RFC7285).
+demands by establishing clear boundaries and focus on the most general and most
+commonly used requirements.  The protocol is based on ALTO because of the fact
+that as mentioned in [](#information-sources), the ALTO servers are actually one
+kind of information source so it is natural to consider regulating the
+communication formats by extending the ALTO protocol.
+
+To clarify the boundaries of the targeted information and to exploit the
+limitation of the current ALTO specification, especially for the network map
+service, two internal representations of an ALTO information service are
+introduced.  We derive our design based on these two representations and discuss
+how to extend the ALTO specification so that the extensions can fit in the
+framework.
 
 ### Internal Structures of ALTO Implementations
 <!-- [[[ -->
@@ -178,29 +184,135 @@ information sources they use.
 
 <!-- ]]] -->
 
-### Limitations of Current ALTO Specification
+<!-- ]]] -->
 
-As it is mentioned in [](#information-sources), the ALTO servers are actually
-information sources.  It can be seen that the current ALTO specifications only
-leverage end-to-end information to the clients, which is probably good enough
-for a single user to choose between several destinations, however, they are
-neither capable of handling demands for coordinated flow scheduling scenarios
-like in data centers, nor publishing topological information.
+### Overview of Extended ALTO Specification
+<!-- [[[ -->
+
+<!-- Limitations of Current ALTO Specification [[[ -->
+
+It can be seen that the current ALTO specifications only leverage end-to-end
+information to the clients.  That is probably good enough for end users to
+choose from different destinations, however, the original ALTO protocol is not
+capable of publishing topological information.
 
 <!-- ]]] -->
 
-### Extended Specification for ALTO Services
-<!-- [[[ -->
+To support this feature, the following extensions are proposed for ALTO
+protocol:
 
-The limitations are in fact quite related.
+- [](#extended-network-map) introduces an extension of network maps;
+- [](#information-map) introduces the extension to publish information
+  for all elements defined in the extended network map.
+- [](#endpoint-info-service) introduces the extension to support querying
+  information between two endpoints.
 
 <!-- ]]] -->
 
-### Network Elements
+### Extended Network Map
 <!-- [[[ -->
 
-In [](#RFC7285) a network map is represented as a list of end points.  Such a
-definition
+The extended network map can publish topological information such as links
+between different endpoints.  Just like for the network map, filtering is also
+possible for the extended network map but due to timing issues it is not
+discussed in this document.
+
+#### Media Type
+<!-- [[[ -->
+
+The media types for extended network map is defined in [](#media-types).
+
+<!-- ]]] -->
+
+#### HTTP Method
+<!-- [[[ -->
+
+The extended network map is requested using the HTTP GET method.
+
+<!-- ]]] -->
+
+#### Accept Input Parameters
+<!-- [[[ -->
+
+None
+
+<!-- ]]] -->
+
+#### Capabilities
+<!-- [[[ -->
+
+The capabilities of an extended network map are described using a JSON object of
+type ExtNetworkMapCapabilities:
+
+        object {
+            JSONString type<1..1>;
+        } ExtNetowkrMapCapabilities;
+
+with fields:
+
+- type: the type of information that is published.  Currently the only valid
+  options are "end-to-end" and "topological".
+
+<!-- ]]] -->
+
+#### Uses
+<!-- [[[ -->
+
+None.
+
+<!-- ]]] -->
+
+#### Response
+<!-- [[[ -->
+
+The "meta" field of the response is the same as of network map responses.
+
+The data component of an extended network map service is named
+"extended-network-map", which is a JSON object of type ExtNetworkMapData, where
+
+        object {
+            ExtNetworkMapData   extended-network-map;
+        } InfoResourceExtNetworkMap : ResponseEntityBase;
+
+        object {
+            EndpointData        endpoints;
+            LinkData            links<0..1>;
+        } ExtNetworkMapData;
+
+        object-map {
+            PIDName -> EndpointAddrGroup;
+        } EndpointData;
+
+        object-map {
+            LINKName -> LinkDesc;
+        } LinkData;
+
+        object {
+            JSONString          pid<2..2>;
+        } LinkDesc;
+
+If the "type" field in the capabilities is "end-to-end", there MUST be no
+"links" field in the data component and ALTO clients MUST ignore the field if it
+is mistakenly provided.
+
+If the "type" field in the capabilities is "topological", the "links" field MUST
+be provided.
+
+<!-- ]]] -->
+
+#### Example
+
+<!-- ]]] -->
+
+### Information Map
+<!-- [[[ -->
+<!-- ]]] -->
+
+### Endpoint Information Service { #endpoint-info-service }
+
+### Media Types of Extended Services { #media-types }
+<!-- [[[ -->
+
 
 <!-- ]]] -->
 
