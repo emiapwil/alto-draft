@@ -274,22 +274,32 @@ The data component of an extended network map service is named
             ExtNetworkMapData   extended-network-map;
         } InfoResourceExtNetworkMap : ResponseEntityBase;
 
+<!-- -->
+
         object {
             NodeData            nodes;
             [LinkData            links;]
         } ExtNetworkMapData;
 
+<!-- -->
+
         object-map {
             NodeName -> NodeDesc;
         } EndpointData;
+
+<!-- -->
 
         object {
             [JSONBool            internal;]
         } NodeDesc : EndpointAddrGroup;
 
+<!-- -->
+
         object-map {
             LinkName -> LinkDesc;
         } LinkData;
+
+<!-- -->
 
         object {
             JSONString          pid<2..2>;
@@ -379,6 +389,8 @@ The "meta" field of the response is described using the following JSON object:
             [PropertyName -> PropertySpec;]
         } InfoMapMetaData;
 
+<!-- -->
+
         object {
             JSONString          type;
             [PropertyAttrName -> JSONValue;]
@@ -407,13 +419,19 @@ which is a JSON object of type InfoMapData, where:
             InfoMapData         information-map;
         } InfoResourceInfoMap : ResponseEntityBase;
 
+<!-- -->
+
         object-map {
             PropertyName -> PropertyMapData;
         } InfoMapData;
 
+<!-- -->
+
         object-map {
             NodeName -> { NodeName -> JSONValue };
         } PathPropertyData : PropertyMapData;
+
+<!-- -->
 
         object-map {
             LinkName -> JSONValue;
@@ -538,9 +556,13 @@ which is a JSON object of type InfoMapData, where:
             InfoMapData         information-map;
         } InfoResourceInfoMap : ResponseEntityBase;
 
+<!-- -->
+
         object-map {
             PropertyName -> PropertyMapData;
         } InfoMapData;
+
+<!-- -->
 
         object-map {
             TypedEndpointAddr -> { TypedEndpointAddr -> JSONValue };
@@ -551,24 +573,6 @@ which is a JSON object of type InfoMapData, where:
 <!-- ]]] -->
 
 #### Example
-<!-- ]]] -->
-
-### Media Types of Extended Services { #media-types }
-<!-- [[[ -->
-
-The media types for the three ALTO extensions are listed below:
-
-<!-- table: media types [[[ -->
-Type         Subtype                     Specification
------------  --------------------------- -------------------------
-application  alto-extnetworkmap+json     [](#extnetmap-response)
-application  alto-infomap+json           [](#infomap-response)
-application  alto-endpointinfo+json      [](#eis-response)
-application  alto-endpointinfoparam+json [](#eis-input)
-------------------------------------------------------------------
-^[media-type-tbl::Media Types]
-
-<!-- ]]] -->
 
 
 <!-- ]]] -->
