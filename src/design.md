@@ -246,7 +246,7 @@ type ExtNetworkMapCapabilities:
 
         object {
             JSONString type<1..1>;
-        } ExtNetowkrMapCapabilities;
+        } ExtNetworkMapCapabilities;
 
 with fields:
 
@@ -262,7 +262,7 @@ None.
 
 <!-- ]]] -->
 
-#### Response
+#### Response { #extnetmap-response }
 <!-- [[[ -->
 
 The "meta" field of the response is the same as of network map responses.
@@ -285,10 +285,10 @@ The data component of an extended network map service is named
 
         object {
             [JSONBool            internal;]
-        } PIDDesc : EndpointAddrGroup;
+        } NodeDesc : EndpointAddrGroup;
 
         object-map {
-            LINKName -> LinkDesc;
+            LinkName -> LinkDesc;
         } LinkData;
 
         object {
@@ -312,12 +312,263 @@ the "internal" field MUST be provided.
 
 ### Information Map
 <!-- [[[ -->
+
+The information map has many similarities with the cost map.  Instead of
+providing only the "cost" between endpoints, it is extended to publish generic
+network information for both endpoint/node pairs and links.  Filtering is also
+optional and due to timing issues it is not described in this document.
+
+#### Media Type
+<!-- [[[ -->
+
+The media types for information map is defined in [](#media-types).
+
+<!-- ]]] -->
+
+#### HTTP Method
+<!-- [[[ -->
+
+The information map is requested using the HTTP GET method.
+
+<!-- ]]] -->
+
+#### Accept Input Parameters
+<!-- [[[ -->
+
+None
+
+<!-- ]]] -->
+
+#### Capabilities
+<!-- [[[ -->
+
+The capabilities of an information map are described using a JSON object of
+type InfoMapCapabilities:
+
+        object {
+            JSONString    properties<0..*>;
+        } InfoMapCapabilities;
+
+with fields:
+
+- properties: the list containing the property names of paths and links.  The
+  names SHOULD indicate the exact target using prefixes such as "path-" or
+  "link-".  The properties here CAN contain both characteristic attributes and
+  statistics for a given path/link.
+
+<!-- ]]] -->
+
+#### Uses
+<!-- [[[ -->
+
+The resource ID of the network map or the extended network map based on which
+the information map will be defined.
+
+<!-- ]]] -->
+
+#### Response { #infomap-response }
+<!-- [[[ -->
+
+<!-- Meta [[[ -->
+
+The "meta" field of the response is described using the following JSON object:
+
+        object {
+            VersionTag    dependent-vtags<1..1>;
+            VersionTag    vtag;
+            [PropertyName -> PropertySpec;]
+        } InfoMapMetaData;
+
+        object {
+            JSONString          type;
+            [PropertyAttrName -> JSONValue;]
+        } PropertySpec;
+
+with fields:
+
+- vtag: the same as the "vtag" in the network map;
+
+- dependent-vtags: the same as the "dependent-vtags" in the cost map, with the
+  addition that resource ID can point to an extended network map;
+
+- PropertyName: the name listed in the capabilities.
+
+The "type" field in PropertySpec is either 'path' or 'link', designating the
+target the property is for.
+
+<!-- ]]] -->
+
+<!-- Data [[[ -->
+
+The data component of an information map service is named "information-map",
+which is a JSON object of type InfoMapData, where:
+
+        object {
+            InfoMapData         information-map;
+        } InfoResourceInfoMap : ResponseEntityBase;
+
+        object-map {
+            PropertyName -> PropertyMapData;
+        } InfoMapData;
+
+        object-map {
+            NodeName -> { NodeName -> JSONValue };
+        } PathPropertyData : PropertyMapData;
+
+        object-map {
+            LinkName -> JSONValue;
+        } LinkPropertyData : PropertyMapData;
+
+If the "type" field in the corresponding PropertySpec is "path", the type of the
+PropertyMapData MUST be PathPropertyData and the same goes for "link" and
+LinkPropertyData.
+
+<!-- ]]] -->
+
+<!-- ]]] -->
+
+#### Example
+
+
 <!-- ]]] -->
 
 ### Endpoint Information Service { #endpoint-info-service }
+<!-- [[[ -->
+
+The endpoint information service to the information map is just as the endpoint
+cost service to the cost map.  It provides only the requested information for
+paths specified by given pairs of addresses.
+
+#### Media Type
+<!-- [[[ -->
+
+The media types for endpoint information service is defined in [](#media-types).
+
+<!-- ]]] -->
+
+#### HTTP Method
+<!-- [[[ -->
+
+The endpoint information service is requested using the HTTP POST method.
+
+<!-- ]]] -->
+
+#### Accept Input Parameters { #eis-input }
+<!-- [[[ -->
+
+The input parameters for the endpoint information service is described using the
+following JSON object:
+
+        object {
+            EndpointFilter    endpoints;
+            [PropertySpecName -> PropertySpec;]
+            [JSONString       constraints<0..*>;]
+        } EndpointInfoReq;
+
+The EndpointFilter is the same as defined in [](#RFC7285).  The PropertySpec is
+the same as defined in [](#information-map).  The "constraints" have the
+following three components:
+
+- A property name that indicates the property to filter. The corresponding
+  property MUST be declared in the capabilities otherwise it MUST be ignored.
+- An operator as defined in [](#RFC7285)
+- A constant or a symbolic property to be compared to.
+
+<!-- ]]] -->
+
+#### Capabilities
+<!-- [[[ -->
+
+The capabilities of the endpoint information service are described using a JSON object of
+type EndpointInfoCapabilities:
+
+        object {
+            JSONString    properties<0..*>;
+        } EndpointInfoCapabilities;
+
+with fields:
+
+- properties: the list containing the property names between endpoints.
+
+<!-- ]]] -->
+
+#### Uses
+<!-- [[[ -->
+
+The resource ID of the network map or the extended network map based on which
+the endpoint information service will be defined.
+
+<!-- ]]] -->
+
+#### Response { #eis-response }
+<!-- [[[ -->
+
+<!-- Meta [[[ -->
+
+The "meta" field of the response is described using the following JSON object:
+
+        object {
+            VersionTag    dependent-vtags<1..1>;
+            VersionTag    vtag;
+            [PropertyName -> PropertySpec;]
+        } InfoMapMetaData;
+
+        object {
+            JSONString          type;
+            [PropertyAttrName -> JSONValue;]
+        } PropertySpec;
+
+with fields:
+
+- dependent-vtags: the same as the "dependent-vtags" in the cost map, with the
+  addition that resource ID can point to an extended network map;
+
+- vtag: the same as in the network map;
+
+- PropertyName: the name listed in the request.
+
+<!-- ]]] -->
+
+<!-- Data [[[ -->
+
+The data component of an information map service is named "information-map",
+which is a JSON object of type InfoMapData, where:
+
+        object {
+            InfoMapData         information-map;
+        } InfoResourceInfoMap : ResponseEntityBase;
+
+        object-map {
+            PropertyName -> PropertyMapData;
+        } InfoMapData;
+
+        object-map {
+            TypedEndpointAddr -> { TypedEndpointAddr -> JSONValue };
+        } PathPropertyData : PropertyMapData;
+
+<!-- ]]] -->
+
+<!-- ]]] -->
+
+#### Example
+<!-- ]]] -->
 
 ### Media Types of Extended Services { #media-types }
 <!-- [[[ -->
+
+The media types for the three ALTO extensions are listed below:
+
+<!-- table: media types [[[ -->
+Type         Subtype                     Specification
+-----------  --------------------------- -------------------------
+application  alto-extnetworkmap+json     [](#extnetmap-response)
+application  alto-infomap+json           [](#infomap-response)
+application  alto-endpointinfo+json      [](#eis-response)
+application  alto-endpointinfoparam+json [](#eis-input)
+------------------------------------------------------------------
+^[media-type-tbl::Media Types]
+
+<!-- ]]] -->
 
 
 <!-- ]]] -->
