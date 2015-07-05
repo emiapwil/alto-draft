@@ -325,8 +325,11 @@ the "internal" field MUST be provided.
 
 The information map has many similarities with the cost map.  Instead of
 providing only the "cost" between endpoints, it is extended to publish generic
-network information for both endpoint/node pairs and links.  Filtering is also
-optional and due to timing issues it is not described in this document.
+network information for both endpoint/node pairs and links.  Due to timing
+issues, the filtering on the information map is not described in this document
+but it is worthy pointing out that the filtered information map is quite
+essential to enhance the performance of fetching data for the interested nodes
+or links.
 
 #### Media Type
 <!-- [[[ -->
@@ -565,7 +568,7 @@ which is a JSON object of type InfoMapData, where:
 <!-- -->
 
         object-map {
-            TypedEndpointAddr -> { TypedEndpointAddr -> JSONValue };
+            TypedNodeAddr -> { TypedNodeAddr -> JSONValue };
         } PathPropertyData : PropertyMapData;
 
 <!-- ]]] -->
@@ -586,7 +589,7 @@ In this document three new ALTO services are introduced, however, they only
 serve as basic functionalities to distribute information.  In this section we
 discuss some advanced topics about the extensions.
 
-## Derive ALTO Services from the Extensions
+## Deriving ALTO Services from the Extensions
 <!-- [[[ -->
 
 Even though the extended network map is capable to provide topological
@@ -680,6 +683,23 @@ To get started, future proposals SHOULD provide the specifications for some
 commonly used information, such as link capacities, available bandwidth, etc.
 Another approach is to design a specification management system where new
 specifications can be validated and registered.
+
+## Fetching Partial Topological Information
+<!-- [[[ -->
+
+One way to fetch partial topological information is to use the filtered
+information map, which has not been specified in this document yet but its basic
+idea applies: filter the information map by returning only the requested data
+of the requested nodes/links.
+
+Another approach can be achieved in the following way: first make use of a
+special type of TypedNodeAddr, the "NodeName", and then implement an endpoint
+information service that returns the links between two requested nodes with all
+the requested data attached.  This particular service can be useful to merge the
+given sequence of links to a single "virtual" link, which may help reduce the
+size of network view and encapsulate details of the original topology.
+
+<!-- ]]] -->
 
 <!-- ]]] -->
 
