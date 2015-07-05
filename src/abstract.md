@@ -4,7 +4,8 @@ The Application-Layer Traffic Optimization (ALTO) protocol enables the
 distributing of network information to applications.  Specifically [](#RFC7285)
 introduces several ALTO information services mainly focused on the "cost"
 between endpoints.  In this document, the problem of collecting general network
-information are raised from the ALTO server implementation perspective.  A
+information, especially the case of collecting from multiple different sources,
+is raised from the ALTO server implementation perspective.  A preliminary
 solution is then provided, which extends the ALTO protocol with some new
 information services.
 

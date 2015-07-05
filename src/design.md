@@ -629,6 +629,7 @@ to reuse the format defined for the extensions in [](#alto-info-protocol).
 
 
 ## Scope for Extended ALTO Services
+<!-- [[[ -->
 
 With the approaches in [](#alto-info-protocol) and the ones discussed in
 sections above, we represent how ALTO protocol can be used in distributing
@@ -659,6 +660,26 @@ private protocol.
            |             +<---------------+             |
            +-------------+                +-------------+
 ^[fig:alto-scenario::AN ALTO Deployment Scenario]
+
+<!-- ]]] -->
+
+<!-- ]]] -->
+
+## The Regulation of Property Specifications
+<!-- [[[ -->
+
+In the specifications for the information map and endpoint information service,
+the information to be published is identified by so-called property
+specifications.  However, there are no standard designating the specification of
+other properties.  Even though the specification for "cost-type" proposed in
+[](#RFC7285) can be seen as an example, it can still lead to confusions if two
+ALTO servers happen to use the same mode-metric combination but use different
+measure units.
+
+To get started, future proposals SHOULD provide the specifications for some
+commonly used information, such as link capacities, available bandwidth, etc.
+Another approach is to design a specification management system where new
+specifications can be validated and registered.
 
 <!-- ]]] -->
 
