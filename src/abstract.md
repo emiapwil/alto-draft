@@ -1,10 +1,11 @@
 <!-- why we need to design a multi-source ALTO server [[[-->
 
-This document discusses several issues regarding the implementation of the
-Application-Layer Traffic Optimization (ALTO) services, which is described in
-[](#RFC7285).  The topics include the communication protocols between an ALTO
-server and the information sources, extensions to the Information Resource
-Directory (IRD) service and some approaches that can be taken on the development
-and deployment of ALTO.
+The Application-Layer Traffic Optimization (ALTO) protocol enables the
+distributing of network information to applications.  Specifically [](#RFC7285)
+introduces several ALTO information services mainly focused on the "cost"
+between endpoints.  In this document, the problem of collecting general network
+information are raised from the ALTO server implementation perspective.  A
+solution is then provided, which extends the ALTO protocol with some new
+information services.
 
 <!-- ]]] -->

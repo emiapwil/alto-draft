@@ -11,8 +11,7 @@ both the network providers and the application users can make better decisions
 on traffic steering and eventually achieve better performance.  However by
 specifying the protocol between ALTO clients and servers, [](#RFC7285) only
 describes part of the service model.  In this document we focus on the service
-model of ALTO servers and in [](#advanced-topics) we discuss a little about what
-can be done on the client's side.
+model of ALTO servers.
 
 A fundamental functionality of the ALTO server is to collect information from
 what we call "information sources".  It is not surprising that there are many
@@ -50,26 +49,6 @@ them can hardly be unified.  Nevertheless, it is still possible and beneficial
 to design a generic protocol to collect statistics for certain implementation
 patterns.  [](#alto-info-protocol) introduces the proposed protocol format in
 details.
-
-<!-- ]]] -->
-
-<!-- ird extensions [[[ -->
-
-Another problem arising with multiple information resources is how a single ALTO
-server can host together different implementations of ALTO services.  This
-problem is related to the management of IRD resources.  Unlike those providing
-network statistics, which may vary, the information sources for IRD service are
-very much alike.  [](#ird-extensions) discusses how to solve this problem and,
-furthermore, introduces several extensions on top of the basic IRD service.
-
-<!-- ]]] -->
-
-<!-- service discovery/selection [[[ -->
-
-At the same time, some real-world issues exist for the ALTO clients: how to
-discover the services and how to choose between different candidates.
-[](#advanced-topics) discusses these problems and provides some useful
-solutions.
 
 <!-- ]]] -->
 

@@ -1,12 +1,12 @@
 
 # ALTO Servers and Information Sources { #alto-info-sources }
+<!-- [[[ -->
+
 This section introduces the concept of "information sources" and discusses the
 possible relationships between an ALTO server and an information source.
 Furthermore, a protocol is proposed for the communication between server
 implementations with certain internal structures and the corresponding
 information sources.
-
-<!-- [[[ -->
 
 ## Information Sources
 <!-- what are information sources [[[ -->
@@ -136,7 +136,7 @@ limitation of the targeted network, both of which can vary significantly.
 
 <!-- ]]] -->
 
-## Protocol Design { #alto-info-protocol }
+# Protocol Design { #alto-info-protocol }
 <!-- [[[ -->
 
 As described above it is difficult to define a unified protocol to cover the
@@ -154,7 +154,7 @@ introduced.  We derive our design based on these two representations and discuss
 how to extend the ALTO specification so that the extensions can fit in the
 framework.
 
-### Internal Structures of ALTO Implementations
+## Internal Structures of ALTO Implementations
 <!-- [[[ -->
 
 Two implementation choices are identified for ALTO services as discussed below.
@@ -186,7 +186,7 @@ information sources they use.
 
 <!-- ]]] -->
 
-### Overview of Extended ALTO Specification
+## Overview of Extended ALTO Services
 <!-- [[[ -->
 
 <!-- Limitations of Current ALTO Specification [[[ -->
@@ -209,7 +209,7 @@ protocol:
 
 <!-- ]]] -->
 
-### Extended Network Map
+## Extended Network Map
 <!-- [[[ -->
 
 The extended network map can publish topological information such as links
@@ -320,7 +320,7 @@ the "internal" field MUST be provided.
 
 <!-- ]]] -->
 
-### Information Map
+## Information Map
 <!-- [[[ -->
 
 The information map has many similarities with the cost map.  Instead of
@@ -450,7 +450,7 @@ LinkPropertyData.
 
 <!-- ]]] -->
 
-### Endpoint Information Service { #endpoint-info-service }
+## Endpoint Information Service { #endpoint-info-service }
 <!-- [[[ -->
 
 The endpoint information service to the information map is just as the endpoint
@@ -577,39 +577,90 @@ which is a JSON object of type InfoMapData, where:
 
 <!-- ]]] -->
 
-
-<!-- Network Statistics Collection [[[ -->
 <!-- ]]] -->
 
-<!-- ]]] -->
-
-# IRD Extensions
+# Future Improvement
 <!-- [[[ -->
 
-Unlike other ALTO services defined in [](#RFC7285), whose communications with
-information sources can vary, the Information Resource Directory (IRD) service
-is relatively simple and well-defined.  In this section we introduce several
-extensions on this particular ALTO service, including:
+In this document three new ALTO services are introduced, however, they only
+serve as basic functionalities to distribute information.  In this section we
+discuss some advanced topics about the extensions.
 
-- Management;
-- Filtering on IRD entries;
-- New specifications of capabilities that are useful in real-world deployment.
+## Derive ALTO Services from the Extensions
+<!-- [[[ -->
+
+Even though the extended network map is capable to provide topological
+information, sometimes applications would still only request for end-to-end
+information.  Also, due to backward-compatibility considerations, a network map
+derived from the extended network map is desired.
+
+One simple implementation is to crop the "links" field from the data component
+in an extended network map response, ignore all internal nodes and rename the
+"nodes" field to "network-map".
+
+At the same time, new information maps and an endpoint information services can
+be derived from the corresponding ones for the base extended network map.  For
+example, consider the hop count as the targeted information, the hop counts
+between two endpoints can be derived by summing up the hop counts (which all
+have the value of 1) on all the links on the path.  The example also demonstrate
+that the cost map can be derived from certain information maps.
+
+<!-- ]]] -->
+
+## Information Aggregation Services
+<!-- [[[ -->
+
+With the extensions introduced in [](#alto-info-protocol), an generic ALTO server
+implementation can collect information by requesting another ALTO server
+providing these information.  However, question still remains that how the
+original data can be collected.
+
+One possible way is to use customized ALTO servers, for example, one embedded
+into a SDN controller.
+
+Another approach is to enable passive data collection in an ALTO server where
+the ALTO server declares a new kind of ALTO "aggregation" service. The
+aggregation service defines the format of information it can resolve so that
+information sources, whether they are ALTO servers, ALTO clients or a
+third-party agents, can push the data to the server.  One good way to start is
+to reuse the format defined for the extensions in [](#alto-info-protocol).
 
 <!-- ]]] -->
 
-## Entry Management
 
-Interfaces for registration/unregistration.
+## Scope for Extended ALTO Services
 
-## Filtered IRD
+With the approaches in [](#alto-info-protocol) and the ones discussed in
+sections above, we represent how ALTO protocol can be used in distributing
+network information to the application in [](#fig:alto-scenario) where the
+normal paths represent ALTO protocol and the starred path represents some
+private protocol.
 
-Motivation:
+<!-- [[[ -->
 
-- Performance
-- Automation
-
-## Multi-homing
-
-## Redistribution
+           +---------------------+             +--------------------+
+           |                     |             |                    |
+           |                     |       ******+ Private            |
+           |                     |       *     | Information Source |
+           |                     |       *     |                    |
+           |                     |       *     +--------------------+
+           |                     v       v
+           |                  +--+-------+--+         +-------------+
+    +------+------+           |             |         |             |
+    |             +<----------+ Generic     +<--------+ Third-Party |
+    | ALTO Client |           | ALTO Server |         | Aggregator  |
+    |             |  +--------+             |         |             |
+    +-------------+  |        +-----+-------+         +-------------+
+                     |              ^
+                     v              |     +-------------+
+           +---------+---+          +-----+             |
+           |             |                | Customized  |
+           | ALTO Client |                | ALTO Server |
+           |             +<---------------+             |
+           +-------------+                +-------------+
+^[fig:alto-scenario::AN ALTO Deployment Scenario]
 
 <!-- ]]] -->
+
+<!-- ]]] -->
+
