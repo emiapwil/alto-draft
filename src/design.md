@@ -4,25 +4,24 @@
 
 This section introduces the concept of "information sources" and discusses the
 possible relationships between an ALTO server and an information source.
-Furthermore, a protocol is proposed for the communication between server
-implementations with certain internal structures and the corresponding
-information sources.
 
 ## Information Sources
 <!-- what are information sources [[[ -->
 
 An "information source" can be roughly described as any entity that is capable
 of providing information on the network but the exact meaning depends on the
-server implementation.  For example, in Software Defined Networking (SDN), a
-controller that provides topology views is an information source, meanwhile P2P
-clients submitting the statistics of a connection and even another ALTO server
-can also be regarded as information sources.  In this document we identify four
-major kinds of information sources:
+server implementation.  For example, in Software Defined Networking (SDN), for
+an ALTO server calculating the hop counts by calling the corresponding
+northbound API of a SDN controller, the controller is an information source.
+Meanwhile, for an ALTO server using round trip time (RTT) as the routing cost
+metric, P2P clients submitting the statistics of a connection are regarded as
+information sources.  In this document we identify four major kinds of
+information sources:
 
 - Human Input
 <!-- [[[ -->
 
-    It is possible that the administrators of an ALTO service want to modify the
+    It is possible that the administrators of an ALTO server want to modify the
     output to meet the need of certain demands such as policy changes, so they may
     compose some data accordingly and input them into the server.  Also in the
     early stages of ALTO server development, human interference is inevitable to
@@ -44,7 +43,7 @@ major kinds of information sources:
 - Network Operating Systems
 <!-- [[[ -->
 
-    With the progress on opening up the network in recent years, especially with
+    With the progress in opening up the network in recent years, especially with
     the development of SDN, the networking system itself has become an important
     source of network information.  Using "northbound" APIs provided by SDN
     controllers, one can get both the configurations and the accurate running
@@ -54,10 +53,10 @@ major kinds of information sources:
 - Information Aggregators
 <!-- [[[ -->
 
-    While information sources discussed above are capable to provide raw data,
-    these data can be aggregated, by a third-party aggregator or as in some
-    hierarchical SDN controller designs, by a higher-level network OS.  It is
-    notable that an ALTO server itself can also be regarded as a source of
+    While information sources discussed above are capable to provide the "raw"
+    data, these data can be aggregated, by a third-party aggregator or by a
+    higher-level network OS as in some hierarchical SDN controller designs.  It
+    is notable that an ALTO server itself can also be regarded as a source of
     aggregated information.
 
 <!-- ]]] -->
@@ -119,16 +118,23 @@ We identify three types of coupling ALTO servers and information sources.
   the ALTO server #A in [](#fig:boundary-identification) if the host and agents
   are still coupled by some private protocol.
 
-- The ALTO server is decoupled from the information sources.
+- The ALTO server is decoupled from the information sources by a standard
+  protocol.  For example, an ALTO server which calculates its own costs by
+  merging the routing costs from some other ALTO servers is decoupled from the
+  its information sources as long as they can provide standard ALTO cost map
+  service with the corresponding cost type.
 
 <!-- ]]] -->
 
 ### Capabilities of Information Sources
 <!-- [[[ -->
 
-The capabilities of an information source which declare the types of available
-information are determined by the type of the information source and the
+The capabilities of an information source, which declare the types of available
+information, are determined by the type of the information source and the
 limitation of the targeted network, both of which can vary significantly.
+However, many capabilities are attached to a certain network element such as a
+router, a link, an attachment point, etc., which can significantly reduce the
+complexity.
 
 <!-- ]]] -->
 
@@ -148,12 +154,12 @@ An observation is made that as mentioned in [](#information-sources), the ALTO
 servers are actually one kind of information source and the ALTO protocol is
 designed to publish certain network information.  Hence, instead of designing a
 new protocol for data collection, which would result in functionality overlap
-and introduce complexity from an implementation perspective, the solution
-proposed in this document is based on the ALTO protocol to avoid these
+with ALTO and introduce complexity from an implementation perspective, the
+solution proposed in this document is based on the ALTO protocol to avoid these
 drawbacks.  In this case, information sources can also take advantages of the
 ALTO framework such as the service discovery mechanism, and current ALTO
-implementations don't have to change anything if they want to serve as an
-information source too.
+implementations don't have to change anything if they want to serve as
+information sources too.
 
 To clarify the boundaries of the targeted information and to exploit the
 limitation of the current ALTO specification, especially for the network map
@@ -165,26 +171,27 @@ framework.
 ## Common ALTO Information Bases
 <!-- [[[ -->
 
-Two implementation choices are identified for ALTO services as discussed below.
-It can be seen that both structures are highly related to and can reflect the
+Two typical internal representations of ALTO server implementations, as known as
+ALTO information bases, are identified for ALTO services as discussed below.  It
+can be seen that both structures are highly related to and can reflect the
 information sources they use.
 
 - End-to-End
 <!-- [[[ -->
 
     In an end-to-end implementation, the network is represented as a full-mesh
-    graph in which case the links are implicit and can be ignored.  This can
-    happen when the corresponding information source collects the information
-    either by conducting end-to-end measurement methods itself or by making
-    request to other information resources, whether it is forced to do so
-    because of not having the condition or priority to get topological
-    information or as an intentional choice.
+    graph where the links are implicit and can be ignored.  This can happen when
+    the corresponding information source collects the information either by
+    conducting end-to-end measurement methods or by making requests to other
+    end-to-end information resources, whether as an intentional choice or being
+    forced to do so because of the limitations of conditions or priorities to
+    get topological information.
 
 <!-- ]]] -->
 - Topological
 <!-- [[[ -->
 
-    In this case the server is using a graph with explicit nodes and links, to
+    In this case the server is using a graph with explicit nodes and links to
     represent a network.  The graph is usually sparse and may have internal
     nodes that are transparent to the ALTO clients.  Such examples are servers
     retrieving topology information from a SDN controller, from a data
@@ -199,19 +206,21 @@ information sources they use.
 
 <!-- Limitations of Current ALTO Specification [[[ -->
 
-It can be seen that the current ALTO specifications only leverage end-to-end
+It can be seen that the current ALTO specifications only publish end-to-end
 information to the clients.  That is probably good enough for end users to
-choose from different destinations, however, the original ALTO protocol is not
-capable of publishing topological information.
+choose from different destinations, however, it cannot satisfy the needs of an
+implementation with a topological ALTO information base because the original
+ALTO protocol is not capable of publishing topological information.
 
 <!-- ]]] -->
 
 To support this feature, the following extensions are proposed for ALTO
 protocol:
 
-- [](#extended-network-map) introduces an extension of network maps;
-- [](#information-map) introduces the extension to publish information
-  for all elements defined in the extended network map.
+- [](#extended-network-map) introduces an extension of network maps which
+  enables the distribution of topologies;
+- [](#information-map) introduces the extension to publish information for all
+  elements defined in the extended network map.
 - [](#endpoint-info-service) introduces the extension to support querying
   information between two endpoints.
 
@@ -222,9 +231,9 @@ protocol:
 
 The extended network map can publish topological information such as links
 between different endpoints.  The data component in the response uses the
-classic Vertices-Edges representation to describe the topology.
+classic vertex-edge representation to describe the topology.
 
-Just like for the network map, filtering is also possible for the extended
+Just as with the network map, filtering is also possible for the extended
 network map but due to timing issues it is not discussed in this document.
 
 #### Media Type
@@ -370,7 +379,7 @@ based on this topology is given below.
 <!-- response [[[ -->
 
         HTTP/1.1 200 OK
-        Content-Length: 1078
+        Content-Length: 1252
         Content-type: application/alto-extnetworkmap+json
 
         {
@@ -407,22 +416,28 @@ based on this topology is given below.
             },
             "links": {
               "link#1": {
-                "pid": ["node#1", "node#3"]
+                "pid": ["node#1", "node#3"],
+                "direction": "both"
               },
               "link#2": {
-                "pid": ["node#1", "node#3"]
+                "pid": ["node#1", "node#3"],
+                "direction": "both"
               },
               "link#3": {
-                "pid": ["node#2", "node#3"]
+                "pid": ["node#2", "node#3"],
+                "direction": "both"
               },
               "link#4": {
-                "pid": ["node#4", "node#6"]
+                "pid": ["node#4", "node#6"],
+                "direction": "both"
               },
               "link#5": {
-                "pid": ["node#5", "node#6"]
+                "pid": ["node#5", "node#6"],
+                "direction": "both"
               },
               "link#6": {
-                "pid": ["node#3", "node#6"]
+                "pid": ["node#3", "node#6"],
+                "direction": "both"
               }
             }
           }
@@ -442,10 +457,10 @@ based on this topology is given below.
 The information map has many similarities with the cost map.  Instead of
 providing only the "cost" between endpoints, it is extended to publish generic
 network information for both endpoint/node pairs and links.  It is notable that
-there are no distinction between attributes and statistics, where the former
-represent the essence and configurations of the object that should seldom change
-while the latter represent the dynamic running state of a network.  However, an
-ALTO server can provide such indications in the corresponding information
+there are no explicit distinctions between attributes and statistics, where the
+former represent the essence and configurations of the object that should seldom
+change while the latter represent the dynamic running state of a network.
+However, an ALTO server can provide such indications in the corresponding
 specifications.
 
 Due to timing issues, the filtering on the information map is not described in
@@ -530,8 +545,7 @@ with fields:
 
 - PropertyName: the name listed in the capabilities.
 
-The "type" field in PropertySpec is either 'path' or 'link', designating the
-target the property is for.
+The "type" field in PropertySpec is either "path" or "link".
 
 <!-- ]]] -->
 
@@ -563,8 +577,8 @@ which is a JSON object of type InfoMapData, where:
         } LinkPropertyData : PropertyMapData;
 
 If the "type" field in the corresponding PropertySpec is "path", the type of the
-PropertyMapData MUST be PathPropertyData and the same goes for "link" and
-LinkPropertyData.
+PropertyMapData MUST be PathPropertyData and the same restriction rule applies
+to "link" and LinkPropertyData.
 
 <!-- ]]] -->
 
@@ -749,7 +763,7 @@ The "meta" field of the response is described using the following JSON object:
             VersionTag    dependent-vtags<1..1>;
             VersionTag    vtag;
             [PropertyName -> PropertySpec;]
-        } InfoMapMetaData;
+        } EISMetaData;
 
         object {
             JSONString          type;
@@ -770,23 +784,23 @@ with fields:
 <!-- Data [[[ -->
 
 The data component of an endpoint information service is named "endpoint-information",
-which is a JSON object of type InfoMapData, where:
+which is a JSON object of type EISData, where:
 
         object {
-            InfoMapData         endpoint-information;
-        } InfoResourceInfoMap : ResponseEntityBase;
+            EISData     endpoint-information;
+        } InfoResourceEISData : ResponseEntityBase;
 
 <!-- -->
 
         object-map {
-            PropertyName -> PropertyMapData;
-        } InfoMapData;
+            PropertyName -> EISPropertyMapData;
+        } EISData;
 
 <!-- -->
 
         object-map {
             TypedNodeAddr -> { TypedNodeAddr -> JSONValue };
-        } PathPropertyData : PropertyMapData;
+        } EISPropertyMapData;
 
 <!-- ]]] -->
 
@@ -870,9 +884,8 @@ and routing cost information as in [](#infomap-example).
 
 <!-- ]]] -->
 
-It can be seen from the request that with the constraint of "link-capacity >
-8Gbps", link#2 is filtered so the routing cost between node#1 and node#4 is 4
-instead of 3.
+With the constraint of "link-capacity > 8Gbps" in the request, link#2 should be
+filtered so the routing cost between node#1 and node#4 is 4 instead of 3.
 
 It is notable that the endpoint information is only provided between endpoints
 with the same address type.
@@ -886,9 +899,10 @@ with the same address type.
 # Future Improvement
 <!-- [[[ -->
 
-In this document three new ALTO services are introduced, however, they only
-serve as basic functionalities to distribute information.  In this section we
-discuss some advanced topics about the extensions.
+In the preceding sections three new ALTO services are introduced, however, they
+only provide basic functionalities to distribute general network information.
+In this section we discuss some advanced topics about the extensions for
+enhancements in functionalities and performance.
 
 ## Deriving ALTO Services from the Extensions
 <!-- [[[ -->
@@ -906,16 +920,16 @@ At the same time, new information maps and an endpoint information services can
 be derived from the corresponding ones for the base extended network map.  For
 example, consider the hop count as the targeted information, the hop counts
 between two endpoints can be derived by summing up the hop counts (which all
-have the value of 1) on all the links on the path.  The example also demonstrate
-that the cost map can be derived from certain information maps.
+have the value of 1) on all the links on the path.  That example also
+demonstrate how the cost map can be derived from certain information maps.
 
 <!-- ]]] -->
 
 ## Information Aggregation Services
 <!-- [[[ -->
 
-With the extensions introduced in [](#alto-info-protocol), an generic ALTO server
-implementation can collect information by requesting another ALTO server
+With the extensions introduced in [](#alto-info-protocol), an generic ALTO
+server implementation can collect information by querying other ALTO servers
 providing these information.  However, question still remains that how the
 original data can be collected.
 
@@ -946,15 +960,12 @@ other than following the protocol.
 
 <!-- comparison between Ext-ALTO/Ext-ALTO-SSE/Aggregation [[[ -->
 
-Description        Aggregator     Publisher    Partial Data
---------------     -------------- ------------ ------------
-Ext-ALTO           ALTO Server    ALTO Server  No
-                   Active         Passive
-Ext-ALTO with SSE  ALTO Server    ALTO Server  Yes
-                   Active         Active
-ALTO Aggregation   ALTO Server    Any          Yes
-                   Passive        Active
----------------------------------------------------------------------
+Description        Aggregator             Publisher
+--------------     --------------         ------------
+Ext-ALTO           ALTO Server, Active    ALTO Server, Passive
+Ext-ALTO with SSE  ALTO Server, Active    ALTO Server, Active
+ALTO Aggregation   ALTO Server, Passive   Any, Active
+------------------------------------------------------
 ^[mode-comparison-tbl::Comparison between Different Ways to Collect Data]
 
 <!-- ]]] -->
@@ -966,10 +977,9 @@ ALTO Aggregation   ALTO Server    Any          Yes
 <!-- [[[ -->
 
 With the approaches in [](#alto-info-protocol) and the ones discussed in
-sections above, we represent how ALTO protocol can be used in distributing
-network information to the application in [](#fig:alto-scenario) where the
-normal paths represent ALTO protocol and the starred path represents some
-private protocol.
+sections above, we represent how ALTO protocol can be used to distribute network
+information to the applications in [](#fig:alto-scenario) where the normal paths
+represent ALTO protocol and the starred path represents some private protocol.
 
 <!-- [[[ -->
 
@@ -991,7 +1001,7 @@ private protocol.
            | ALTO Client |             | ALTO Server |
            |             +<------------+             |
            +-------------+             +-------------+
-^[fig:alto-scenario::AN ALTO Deployment Scenario]
+^[fig:alto-scenario::An ALTO Deployment Scenario]
 
 <!-- ]]] -->
 
@@ -1002,38 +1012,40 @@ private protocol.
 
 In the specifications for the information map and endpoint information service,
 the information to be published is identified by so-called property
-specifications.  However, there are no standard designating the specification of
-other properties.  Even though the specification for "cost-type" proposed in
-[](#RFC7285) can be seen as an example, it can still lead to confusions if two
-ALTO servers happen to use the same mode-metric combination but use different
-measure units.
+specifications.  However, there are no standard providing the specifications of
+other properties at the moment.  Even though the specification for "cost-type"
+proposed in [](#RFC7285) can be seen as an example, it can still lead to
+confusions if two ALTO servers happen to use the same mode-metric combination
+but use different measure units.
 
 Just like the cost types in [](#RFC7285), a registry for the information
 specification used by the information map and the endpoint information service
-SHOULD be created and maintained by IANA in the future.  To get started, future
+MUST be created and maintained by IANA in the future.  To get started, future
 proposals SHOULD designate some initial values by providing the specifications
-for some commonly used information, such as link capacities, available
+for some commonly used information, such as the link capacity, available
 bandwidth, etc.
 
 Another approach is to design a management system where new specifications can
-be validated and registered with an "exp:" prefix indicating they are
+be validated and registered with an "exp:" prefix, which indicates that they are
 experimental properties, before they are standardized.
+
+<!-- ]]] -->
 
 ## Fetching Filtered Topological Information
 <!-- [[[ -->
 
 One way to fetch filtered topological information, as the name suggests, is to
-use the filtered information map, which has not been specified in this document
-yet but its basic idea applies: filter the information map by returning only the
-requested data of the requested nodes/links.
+use the filtered information map which returns only the requested data of the
+requested nodes/links.  The filtered information map has not been specified in
+this document yet but is planned to be included in future updates.
 
-Another approach can be achieved in the following way: First make use of a
-special type of TypedNodeAddr, the "NodeName", to identify the targeted nodes,
-and then implement an endpoint information service that returns the links
-between two requested nodes with all the requested data attached.  This
-particular service can be useful to merge the given sequence of links to a
-single "virtual" link, which may help reduce the size of network view and
-encapsulate details of the original topology.
+Another approach can be achieved in the following way: First use a special type
+of TypedNodeAddr, the "NodeName", to identify the targeted nodes, and then
+implement an endpoint information service that returns the links between two
+requested nodes with all the requested data attached.  This particular service
+can be useful to merge the given sequence of links to a single "virtual" link,
+which may help reduce the size of network view and encapsulate details of the
+original topology.
 
 <!-- ]]] -->
 

@@ -33,7 +33,7 @@
 <?rfc compact="yes" ?>
 <?rfc subcompact="no" ?>
 
-<rfc ipr='trust200902' docName='draft-gao-alto-info-extension-00'>
+<rfc ipr='trust200902' docName='draft-gao-alto-info-extension-01'>
   <front>
     <title abbrev="ALTO Extensions">ALTO Extensions for Multi-Source Information Collection</title>
 
