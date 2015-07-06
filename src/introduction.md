@@ -44,11 +44,11 @@ model for the server's side in [](#fig:alto-service-model).
 <!-- protocol for common server-is communication [[[ -->
 
 Since the relationships between ALTO servers and information sources can be very
-complex, as discussed in [](#relationships), the communication between
-them can hardly be unified.  Nevertheless, it is still possible and beneficial
-to design a generic protocol to collect statistics for certain implementation
-patterns.  [](#alto-info-protocol) introduces the proposed protocol format in
-details.
+complex, as discussed in [](#relationships), the communication between them can
+hardly be unified.  Nevertheless, it is still possible and beneficial to design
+a generic protocol to collect statistics for servers implemented with certain
+patterns of ALTO information bases.  [](#alto-info-protocol) introduces the
+proposed protocol format in details.
 
 <!-- ]]] -->
 
@@ -58,4 +58,22 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
 interpreted as described in [](#RFC2119).
 
-## Terminology
+## Terminology and Notation
+
+This document uses the following terms: Application, ALTO Server, ALTO Client
+and ALTO Response defined in [](#RFC5693); Endpoint, ALTO Information and ALTO
+Information Base defined in [](#RFC7285).
+
+This document uses the same notations of describing JSON objects in
+[](#RFC7285), which are specified in [](#RFC7159).
+
+This document uses the following additional terms: Information Source.
+
+- Information Source
+<!-- [[[ -->
+
+    An information source is an entity that provides basic information for ALTO
+    servers, see more detailed description in [](#information-sources).
+
+<!-- ]]] -->
+

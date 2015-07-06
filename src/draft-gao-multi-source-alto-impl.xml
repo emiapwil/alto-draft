@@ -9,6 +9,7 @@
 
 <!ENTITY RFC5693 PUBLIC '' 'reference.RFC.5693.xml'>
 <!ENTITY RFC2119 PUBLIC '' 'reference.RFC.2119.xml'>
+<!ENTITY RFC7159 PUBLIC '' 'reference.RFC.7159.xml'>
 <!ENTITY RFC7285 PUBLIC '' 'reference.RFC.7285.xml'>
 <!ENTITY NOX PUBLIC '' 'reference.nox.2008.xml'>
 <!ENTITY draft-amante-i2rs-topology-use-cases PUBLIC '' 'reference.I-D.draft-amante-i2rs-topology-use-cases-01.xml'>
@@ -62,6 +63,7 @@
     <references title="Informative References">
       &NOX;
       &RFC5693;
+      &RFC7159;
       &RFC7285;
       &draft-amante-i2rs-topology-use-cases;
       &draft-lee-alto-app-net-info-exchange;

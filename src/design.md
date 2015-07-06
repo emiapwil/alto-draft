@@ -154,7 +154,7 @@ introduced.  We derive our design based on these two representations and discuss
 how to extend the ALTO specification so that the extensions can fit in the
 framework.
 
-## Internal Structures of ALTO Implementations
+## ALTO Information Bases
 <!-- [[[ -->
 
 Two implementation choices are identified for ALTO services as discussed below.
@@ -213,9 +213,11 @@ protocol:
 <!-- [[[ -->
 
 The extended network map can publish topological information such as links
-between different endpoints.  Just like for the network map, filtering is also
-possible for the extended network map but due to timing issues it is not
-discussed in this document.
+between different endpoints.  The data component in the response uses the
+classic Vertices-Edges representation to describe the topology.
+
+Just like for the network map, filtering is also possible for the extended
+network map but due to timing issues it is not discussed in this document.
 
 #### Media Type
 <!-- [[[ -->
@@ -325,11 +327,17 @@ the "internal" field MUST be provided.
 
 The information map has many similarities with the cost map.  Instead of
 providing only the "cost" between endpoints, it is extended to publish generic
-network information for both endpoint/node pairs and links.  Due to timing
-issues, the filtering on the information map is not described in this document
-but it is worthy pointing out that the filtered information map is quite
-essential to enhance the performance of fetching data for the interested nodes
-or links.
+network information for both endpoint/node pairs and links.  It is notable that
+there are no distinction between attributes and statistics, where the former
+represent the essence and configurations of the object that should seldom change
+while the latter represent the dynamic running state of a network.  However, an
+ALTO server can provide such indications in the corresponding information
+specifications.
+
+Due to timing issues, the filtering on the information map is not described in
+this document but it is worthy pointing out that the filtered information map is
+quite essential to enhance the performance of fetching data for the interested
+nodes or links.
 
 #### Media Type
 <!-- [[[ -->
@@ -679,10 +687,16 @@ other properties.  Even though the specification for "cost-type" proposed in
 ALTO servers happen to use the same mode-metric combination but use different
 measure units.
 
-To get started, future proposals SHOULD provide the specifications for some
-commonly used information, such as link capacities, available bandwidth, etc.
-Another approach is to design a specification management system where new
-specifications can be validated and registered.
+Just like the cost types in [](#RFC7285), a registry for the information
+specification used by the information map and the endpoint information service
+SHOULD be created and maintained by IANA in the future.  To get started, future
+proposals SHOULD designate some initial values by providing the specifications
+for some commonly used information, such as link capacities, available
+bandwidth, etc.
+
+Another approach is to design a management system where new specifications can
+be validated and registered with an "exp:" prefix indicating they are
+experimental properties, before they are standardized.
 
 ## Fetching Partial Topological Information
 <!-- [[[ -->

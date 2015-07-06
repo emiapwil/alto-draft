@@ -4,8 +4,7 @@ This document has not conducted its security analysis.
 
 # IANA Considerations
 
-This document defines registries for application/alto-\* media types.  Initial
-values for the registries and the process of future assignments are given below.
+This document defines registries for application/alto-\* media types.
 
 ## Media Types
 <!-- [[[ -->
@@ -23,6 +22,9 @@ application  alto-endpointinfoparam+json [](#eis-input)
 ^[media-type-tbl::Media Types]
 
 <!-- ]]] -->
+
+The media types defined in this document have the same constraints and
+properties as those defined in [](#RFC7285), except the authors' information.
 
 <!-- ]]] -->
 
