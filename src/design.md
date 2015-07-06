@@ -56,7 +56,7 @@ major kinds of information sources:
 
     While information sources discussed above are capable to provide raw data,
     these data can be aggregated, by a third-party aggregator or as in some
-    hiearchical SDN controller designs, by a higher-level network OS.  It is
+    hierarchical SDN controller designs, by a higher-level network OS.  It is
     notable that an ALTO server itself can also be regarded as a source of
     aggregated information.
 
