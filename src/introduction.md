@@ -50,8 +50,15 @@ Since the relationships between ALTO servers and information sources can be very
 complex, as discussed in [](#relationships), the communication between them can
 hardly be unified.  Nevertheless, it is still possible and beneficial to design
 a generic protocol to collect statistics for servers implemented with certain
-patterns of ALTO information bases.  [](#alto-info-protocol) introduces the
-proposed protocol format in details.
+patterns of ALTO information bases.
+
+With a standard protocol, the implementation of ALTO servers can be decoupled
+from the implementations of information sources, making it much easier to
+support the feature of fetching information from multiple sources and to be
+compatible with new information sources.  [](#alto-info-protocol) introduces the
+proposed protocol format in details.  Despite the initial motivation to help
+ALTO server implementations gather necessary information, the protocol can also
+be applied as a unified information distribution method.
 
 <!-- ]]] -->
 

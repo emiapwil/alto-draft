@@ -148,11 +148,12 @@ An observation is made that as mentioned in [](#information-sources), the ALTO
 servers are actually one kind of information source and the ALTO protocol is
 designed to publish certain network information.  Hence, instead of designing a
 new protocol for data collection, which would result in functionality overlap
-assuredly and introduce complexity from an implementation perspective, the
-solution proposed in this document is based on the ALTO protocol.  In this case,
-information sources can also take advantages of the ALTO framework such as the
-service discovery mechanism, and current ALTO implementations don't have to
-change anything if they want to serve as an information source too.
+and introduce complexity from an implementation perspective, the solution
+proposed in this document is based on the ALTO protocol to avoid these
+drawbacks.  In this case, information sources can also take advantages of the
+ALTO framework such as the service discovery mechanism, and current ALTO
+implementations don't have to change anything if they want to serve as an
+information source too.
 
 To clarify the boundaries of the targeted information and to exploit the
 limitation of the current ALTO specification, especially for the network map
