@@ -112,7 +112,7 @@ We identify three types of coupling ALTO servers and information sources.
 
 - The ALTO server is deeply embedded into the information source, which is
   either a network OS or an information aggregator.  For example, our group has
-  participated in a project to provide ALTO services in Open Daylight, a famous
+  participated in a project to provide ALTO services in [](#OpenDaylight), an industrial
   SDN controller.
 
 - The ALTO server is loosely coupled with the information source.  One example is
@@ -154,7 +154,7 @@ introduced.  We derive our design based on these two representations and discuss
 how to extend the ALTO specification so that the extensions can fit in the
 framework.
 
-## ALTO Information Bases
+## Common ALTO Information Bases
 <!-- [[[ -->
 
 Two implementation choices are identified for ALTO services as discussed below.
@@ -305,7 +305,7 @@ The data component of an extended network map service is named
 
         object {
             JSONString          pid<2..2>;
-            LinkPropertyType -> JSONValue;
+            JSONString          direction;
         } LinkDesc;
 
 If the "type" field in the capabilities is "end-to-end", there MUST be no
@@ -316,9 +316,115 @@ are mistakenly provided.
 If the "type" field in the capabilities is "topological", the "links" field and
 the "internal" field MUST be provided.
 
+The "direction" field indicates the allowed direction of traffic.  The optional
+values are "both", "ltr" and "rtl".  If the value is not "both", the pid MUST be
+sorted to represent the correct direction where "ltr" indicates the direction of
+pid\_0 --> pid\_1 while "rtl" indicates pid\_0 <-- pid\_0.
+
 <!-- ]]] -->
 
 #### Example
+<!-- [[[ -->
+
+[](#fig:example-topology) demonstrates a simple topology.
+
+<!-- figure: example topology [[[ -->
+
+    +-----------+                          +-----------+
+    |  Node #1  |----\                     |  Node #4  |
+    +-----------+     |                    +-----------+
+       |              |                     |
+       |              |                    /
+       \              |                   /
+        \       +-----------+      +-----------+
+         -------|  Node #3  |______|  node #6  |
+                +-----------+      +-----------+
+                   |                      |
+                  /                        \
+                 /                          \
+    +-----------+                           +-----------+
+    |  Node #2  |                           |  Node #5  |
+    +-----------+                           +-----------+
+^[fig:example-topology::Example Topology]
+
+The example request and the corresponding response for the extended network map
+based on this topology is given below.
+
+<!-- request [[[ -->
+
+        GET /extnetworkmap HTTP/1.1
+        Host: alto.example.org
+        Accept: application/alto-extnetworkmap+json,
+                application/alto-error+json
+
+<!-- ]]] -->
+
+<!-- response [[[ -->
+
+        HTTP/1.1 200 OK
+        Content-Length: 1078
+        Content-type: application/alto-extnetworkmap+json
+
+        {
+          "meta" : {
+            "vtag": {
+              "resource-id": "extended-network-map-example",
+              "tag": "67e6183c00fe467a960f174b93f23cf7"
+            }
+          },
+          "extended-network-map": {
+            "nodes": {
+              "node#1": {
+                "internal": "false",
+                "ipv4": [ "192.168.1.0/28" ]
+              },
+              "node#2": {
+                "internal": "false",
+                "ipv4": [ "192.168.1.128/28" ]
+              },
+              "node#3": {
+                "internal": "true"
+              },
+              "node#4": {
+                "internal": "false",
+                "ipv4": [ "192.168.2.0/28" ]
+              },
+              "node#5": {
+                "internal": "false",
+                "ipv4": [ "192.168.2.128/28" ]
+              },
+              "node#6": {
+                "internal": "true"
+              }
+            },
+            "links": {
+              "link#1": {
+                "pid": ["node#1", "node#3"]
+              },
+              "link#2": {
+                "pid": ["node#1", "node#3"]
+              },
+              "link#3": {
+                "pid": ["node#2", "node#3"]
+              },
+              "link#4": {
+                "pid": ["node#4", "node#6"]
+              },
+              "link#5": {
+                "pid": ["node#5", "node#6"]
+              },
+              "link#6": {
+                "pid": ["node#3", "node#6"]
+              }
+            }
+          }
+        }
+<!-- ]]] -->
+
+<!-- ]]] -->
+
+
+<!-- ]]] -->
 
 <!-- ]]] -->
 
@@ -456,8 +562,103 @@ LinkPropertyData.
 
 <!-- ]]] -->
 
-#### Example
+#### Example { #infomap-example }
+<!-- [[[ -->
 
+The example of getting the hop counts between nodes, link cost and the link
+capacities is given below, using the topology in [](#fig:example-topology).
+
+<!-- request  [[[ -->
+
+        GET /example-infomap HTTP/1.1
+        Host: alto.example.org
+        Accept: application/alto-infomap+json,
+                application/alto-error+json
+
+<!-- ]]] -->
+
+<!-- response [[[ -->
+
+        HTTP/1.1 200 OK
+        Content-Length: 1434
+        Content-type: application/alto-infomap+json
+
+        {
+          "meta": {
+            "vtag": {
+              "resource-id": "infomap-example",
+              "tag": "e7822fdd03814561bdb955667ca06534"
+            },
+            "dependent-vtags": [
+              {
+                "resource-id": "extended-network-map-example",
+                "tag": "67e6183c00fe467a960f174b93f23cf7"
+              }
+            ],
+            "path-hop-count-cost": {
+              "type": "path",
+              "mode": "numerical",
+              "metric": "hopcount"
+            },
+            "link-cost": {
+                "type": "link",
+                "mode": "numerical",
+                "metric": "routingcost"
+            },
+            "link-capacity": {
+              "type": "link",
+              "format": "text"
+            }
+          },
+          "information-map": {
+            "path-hop-count-cost": {
+              "node#1": {
+                "node#1": 0, "node#2": 2, "node#3": 1,
+                "node#4": 3, "node#5": 3, "node#6": 2
+              },
+              "node#2": {
+                "node#1": 2, "node#2": 0, "node#3": 1,
+                "node#4": 3, "node#5": 3, "node#6": 2
+              },
+              "node#3": {
+                "node#1": 1, "node#2": 1, "node#3": 0,
+                "node#4": 2, "node#5": 2, "node#6": 1
+              },
+              "node#4": {
+                "node#1": 3, "node#2": 3, "node#3": 2,
+                "node#4": 0, "node#5": 2, "node#6": 1
+              },
+              "node#5": {
+                "node#1": 3, "node#2": 3, "node#3": 2,
+                "node#4": 2, "node#5": 0, "node#6": 1
+              },
+              "node#6": {
+                "node#1": 2, "node#2": 2, "node#3": 1,
+                "node#4": 1, "node#5": 1, "node#6": 0
+              }
+            },
+            "link-cost": {
+                "link#1": 2,
+                "link#2": 1,
+                "link#3": 1,
+                "link#4": 1,
+                "link#5": 1,
+                "link#6": 1
+            },
+            "link-capacity": {
+              "link#1": "10Gbps",
+              "link#2": "5Gbps",
+              "link#3": "10Gbps",
+              "link#4": "10Gbps",
+              "link#5": "10Gbps",
+              "link#6": "20Gbps"
+            }
+          }
+        }
+
+<!-- ]]] -->
+
+<!-- ]]] -->
 
 <!-- ]]] -->
 
@@ -524,8 +725,8 @@ with fields:
 #### Uses
 <!-- [[[ -->
 
-The resource ID of the network map or the extended network map based on which
-the endpoint information service will be defined.
+The resource ID of the network map, information map or the extended network map
+based on which the endpoint information service will be defined.
 
 <!-- ]]] -->
 
@@ -560,11 +761,11 @@ with fields:
 
 <!-- Data [[[ -->
 
-The data component of an information map service is named "information-map",
+The data component of an endpoint information service is named "endpoint-information",
 which is a JSON object of type InfoMapData, where:
 
         object {
-            InfoMapData         information-map;
+            InfoMapData         endpoint-information;
         } InfoResourceInfoMap : ResponseEntityBase;
 
 <!-- -->
@@ -584,7 +785,91 @@ which is a JSON object of type InfoMapData, where:
 <!-- ]]] -->
 
 #### Example
+<!-- [[[ -->
 
+The example of getting the routing cost is given below, using the same topology
+and routing cost information as in [](#infomap-example).
+
+<!-- request [[[ -->
+
+        POST /eis-example HTTP/1.1
+        Host: alto.example.org
+        Content-Length: 329
+        Content-type: application/alto-endpointinfoparam+json
+        Accept: application/alto-endpointinfo+json,
+                application/alto-error+json
+
+
+        {
+          "endpoints": {
+              "srcs": [ "ipv4:192.168.1.12", "node:node#1" ],
+              "dsts": [
+                "ipv4:192.168.1.13",
+                "ipv4:192.168.2.34",
+                "node:node#2"
+              ]
+          },
+          "path-routingcost": {
+            "type": "path",
+            "mode": "numerical",
+            "metric": "routingcost"
+          },
+          "constraints": ["link-capacity > 8Gbps"]
+        }
+
+<!-- ]]] -->
+
+<!-- response [[[ -->
+
+        HTTP/1.1 200 OK
+        Content-length: 601
+        Content-type: application/alto-endpointinfo+json
+
+<!-- -->
+
+        {
+          "meta": {
+            "vtag": {
+              "resource-id": "eis-example",
+              "tag": "5ffb08265da64136a13978055f3affb6"
+            },
+            "dependent-vtags": [
+              {
+                "resource-id": "extended-network-map-example",
+                "tag": "67e6183c00fe467a960f174b93f23cf7"
+              },
+              {
+                "resource-id": "infomap-example",
+                "tag": "e7822fdd03814561bdb955667ca06534"
+              }
+            ]
+          },
+
+<!-- -->
+
+          "endpoint-information": {
+            "path-cost": {
+              "ipv4:192.168.1.12": {
+                "ipv4:192.168.1.13": 0,
+                "ipv4:192.168.2.34": 4
+              },
+              "node:node#1": {
+                "node:node#2": 3
+              }
+            }
+          }
+        }
+
+<!-- ]]] -->
+
+It can be seen from the request that with the constraint of "link-capacity >
+8Gbps", link#2 is filtered so the routing cost between node#1 and node#4 is 4
+instead of 3.
+
+It is notable that the endpoint information is only provided between endpoints
+with the same address type.
+
+<!-- ]]] -->
 
 <!-- ]]] -->
 
@@ -632,12 +917,11 @@ into a SDN controller.
 Another approach is to enable passive data collection in an ALTO server where
 the ALTO server declares a new kind of ALTO "aggregation" service. The
 aggregation service defines the format of information it can resolve so that
-information sources, whether they are ALTO servers, ALTO clients or a
-third-party agents, can push the data to the server.  One good way to start is
-to reuse the format defined for the extensions in [](#alto-info-protocol).
+information sources, whether they are ALTO servers, ALTO clients or third-party
+agents, can push the data to the server.  One good way to start is to reuse the
+format defined for the extensions in [](#alto-info-protocol).
 
 <!-- ]]] -->
-
 
 ## Scope for Extended ALTO Services
 <!-- [[[ -->
@@ -698,20 +982,21 @@ Another approach is to design a management system where new specifications can
 be validated and registered with an "exp:" prefix indicating they are
 experimental properties, before they are standardized.
 
-## Fetching Partial Topological Information
+## Fetching Filtered Topological Information
 <!-- [[[ -->
 
-One way to fetch partial topological information is to use the filtered
-information map, which has not been specified in this document yet but its basic
-idea applies: filter the information map by returning only the requested data
-of the requested nodes/links.
+One way to fetch filtered topological information, as the name suggests, is to
+use the filtered information map, which has not been specified in this document
+yet but its basic idea applies: filter the information map by returning only the
+requested data of the requested nodes/links.
 
-Another approach can be achieved in the following way: first make use of a
-special type of TypedNodeAddr, the "NodeName", and then implement an endpoint
-information service that returns the links between two requested nodes with all
-the requested data attached.  This particular service can be useful to merge the
-given sequence of links to a single "virtual" link, which may help reduce the
-size of network view and encapsulate details of the original topology.
+Another approach can be achieved in the following way: First make use of a
+special type of TypedNodeAddr, the "NodeName", to identify the targeted nodes,
+and then implement an endpoint information service that returns the links
+between two requested nodes with all the requested data attached.  This
+particular service can be useful to merge the given sequence of links to a
+single "virtual" link, which may help reduce the size of network view and
+encapsulate details of the original topology.
 
 <!-- ]]] -->
 

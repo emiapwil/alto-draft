@@ -1,5 +1,6 @@
 *.swp
 build
+tmp
 .zshhistory
 alto
 draft*.txt

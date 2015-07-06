@@ -9,7 +9,7 @@ output=$(patsubst build/%.xml, %.txt, $(target))
 
 stylefile=../common/pandoc2rfc/transform.xsl
 
-all: $(output)
+all: prepare $(output)
 
 $(output): $(target) $(genxmlfiles) $(rawxmlfiles) $(genbibfiles)
 	xml2rfc $(target) -o $(output) --text
