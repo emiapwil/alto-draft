@@ -142,10 +142,17 @@ limitation of the targeted network, both of which can vary significantly.
 As described above it is difficult to define a unified protocol to cover the
 need of ALL ALTO server implementations.  However, we can narrow down the
 demands by establishing clear boundaries and focus on the most general and most
-commonly used requirements.  The protocol is based on ALTO because of the fact
-that as mentioned in [](#information-sources), the ALTO servers are actually one
-kind of information source so it is natural to consider regulating the
-communication formats by extending the ALTO protocol.
+commonly used requirements.
+
+An observation is made that as mentioned in [](#information-sources), the ALTO
+servers are actually one kind of information source and the ALTO protocol is
+designed to publish certain network information.  Hence, instead of designing a
+new protocol for data collection, which would result in functionality overlap
+assuredly and introduce complexity from an implementation perspective, the
+solution proposed in this document is based on the ALTO protocol.  In this case,
+information sources can also take advantages of the ALTO framework such as the
+service discovery mechanism, and current ALTO implementations don't have to
+change anything if they want to serve as an information source too.
 
 To clarify the boundaries of the targeted information and to exploit the
 limitation of the current ALTO specification, especially for the network map
@@ -918,8 +925,39 @@ Another approach is to enable passive data collection in an ALTO server where
 the ALTO server declares a new kind of ALTO "aggregation" service. The
 aggregation service defines the format of information it can resolve so that
 information sources, whether they are ALTO servers, ALTO clients or third-party
-agents, can push the data to the server.  One good way to start is to reuse the
-format defined for the extensions in [](#alto-info-protocol).
+agents, can push the data to the server.
+
+The Internet Draft [](#I-D.ietf-alto-incr-update-sse), which uses Server-Sent
+Events (SSE) to push incremental updates to the ALTO clients, can also be used
+as a passive data collection method.  Both methods can transport partial data to
+the aggregator ALTO server, however, the information sources using the
+"aggregation" service don't have to launch an ALTO server instance, thus this
+approach allows more lightweight publishers and can apply in more general
+scenarios.
+
+A comparison between the methods mentioned above is listed in
+[](#mode-comparison-tbl).  In "Ext-ALTO with SSE" and "Ext-ALTO", the aggregator
+ALTO server acts as a client to the publisher ALTO servers which provide the
+extended ALTO services introduced in this document with and without the SSE
+mechanism respectively.  In "ALTO Aggregation", the aggregator ALTO server is
+providing the "aggregation" service and there is no demand on the publisher
+other than following the protocol.
+
+<!-- comparison between Ext-ALTO/Ext-ALTO-SSE/Aggregation [[[ -->
+
+Description        Aggregator     Publisher    Partial Data
+--------------     -------------- ------------ ------------
+Ext-ALTO           ALTO Server    ALTO Server  No
+                   Active         Passive
+Ext-ALTO with SSE  ALTO Server    ALTO Server  Yes
+                   Active         Active
+ALTO Aggregation   ALTO Server    Any          Yes
+                   Passive        Active
+---------------------------------------------------------------------
+^[mode-comparison-tbl::Comparison between Different Ways to Collect Data]
+
+<!-- ]]] -->
+
 
 <!-- ]]] -->
 
@@ -934,26 +972,24 @@ private protocol.
 
 <!-- [[[ -->
 
-           +---------------------+             +--------------------+
-           |                     |             |                    |
-           |                     |       ******+ Private            |
-           |                     |       *     | Information Source |
-           |                     |       *     |                    |
-           |                     |       *     +--------------------+
-           |                     v       v
-           |                  +--+-------+--+         +-------------+
-    +------+------+           |             |         |             |
-    |             +<----------+ Generic     +<--------+ Third-Party |
-    | ALTO Client |           | ALTO Server |         | Aggregator  |
-    |             |  +--------+             |         |             |
-    +-------------+  |        +-----+-------+         +-------------+
-                     |              ^
-                     v              |     +-------------+
-           +---------+---+          +-----+             |
-           |             |                | Customized  |
-           | ALTO Client |                | ALTO Server |
-           |             +<---------------+             |
-           +-------------+                +-------------+
+
+           +---------------------+               +--------------------+
+           |                     |       ********+                    |
+           |                     |       *       | Private            |
+           |                     v       v       | Information Source |
+           |                  +--+-------+--+    |                    |
+    +------+------+           |             |    +--------------------+
+    |             +<----------+ Generic     |
+    | ALTO Client |           | ALTO Server |           +-------------+
+    |             |  +--------+             +<----------+             |
+    +-------------+  |        +--+----------+           | Third-Party |
+                     |           ^                      | Aggregator  |
+                     v           |     +-------------+  |             |
+           +---------+---+       +-----+             |  +-------------+
+           |             |             | Customized  |
+           | ALTO Client |             | ALTO Server |
+           |             +<------------+             |
+           +-------------+             +-------------+
 ^[fig:alto-scenario::AN ALTO Deployment Scenario]
 
 <!-- ]]] -->

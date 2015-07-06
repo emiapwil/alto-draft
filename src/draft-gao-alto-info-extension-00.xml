@@ -1,0 +1,73 @@
+<?xml version='1.0' ?>
+<!DOCTYPE rfc SYSTEM 'rfc2629.dtd' [
+<!ENTITY author-gk PUBLIC '' 'gaokai.xml'>
+<!ENTITY author-yry PUBLIC '' 'yryang.xml'>
+<!ENTITY abstract PUBLIC '' 'abstract.xml.gen'>
+<!ENTITY introduction PUBLIC '' 'introduction.xml.gen'>
+<!ENTITY design PUBLIC '' 'design.xml.gen'>
+<!ENTITY considerations-and-acknowledgements PUBLIC '' 'considerations-and-acknowledgements.xml.gen'>
+
+<!ENTITY RFC5693 PUBLIC '' 'reference.RFC.5693.xml'>
+<!ENTITY RFC2119 PUBLIC '' 'reference.RFC.2119.xml'>
+<!ENTITY RFC7159 PUBLIC '' 'reference.RFC.7159.xml'>
+<!ENTITY RFC7285 PUBLIC '' 'reference.RFC.7285.xml'>
+<!ENTITY NOX PUBLIC '' 'reference.nox.2008.xml'>
+<!ENTITY ODL PUBLIC '' 'reference.odl.2014.xml'>
+<!ENTITY ALTO-SSE PUBLIC '' 'reference.I-D.draft-ietf-alto-incr-update-sse-00.xml'>
+<!ENTITY draft-amante-i2rs-topology-use-cases PUBLIC '' 'reference.I-D.draft-amante-i2rs-topology-use-cases-01.xml'>
+<!ENTITY draft-lee-alto-app-net-info-exchange PUBLIC '' 'reference.I-D.draft-lee-alto-app-net-info-exchange-02.xml'>
+<!ENTITY draft-clemm-i2rs-yang-network-topo PUBLIC '' 'reference.I-D.draft-clemm-i2rs-yang-network-topo-01.xml'>
+]>
+
+<?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+
+<?rfc strict="yes" ?>
+<?rfc comments="yes" ?>
+<?rfc inline="yes" ?>
+<?rfc editing="no" ?>
+<?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
+<?rfc tocdepth="2"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc compact="yes" ?>
+<?rfc subcompact="no" ?>
+
+<rfc ipr='trust200902' docName='draft-gao-alto-info-extension-00'>
+  <front>
+    <title abbrev="ALTO Extensions">ALTO Extensions for Multi-Source Information Collection</title>
+
+    &author-gk;
+    &author-yry;
+
+    <date day="6" month="July" year="2015" />
+
+    <area>Application Area</area>
+    <workgroup>ALTO WG</workgroup>
+
+
+    <abstract>
+      &abstract;
+    </abstract>
+  </front>
+
+  <middle>
+    &introduction;
+    &design;
+    &considerations-and-acknowledgements;
+  </middle>
+
+  <back>
+    <references title="Normative References">
+      &RFC2119;
+    </references>
+
+    <references title="Informative References">
+      &ODL;
+      &RFC5693;
+      &RFC7159;
+      &RFC7285;
+      &ALTO-SSE;
+    </references>
+  </back>
+</rfc>

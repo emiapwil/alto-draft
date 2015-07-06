@@ -28,6 +28,3 @@ properties as those defined in [](#RFC7285), except the authors' information.
 
 <!-- ]]] -->
 
-# Acknowledgements
-
-The authors thank discussions with.

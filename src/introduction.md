@@ -16,7 +16,8 @@ model of ALTO servers.
 A fundamental functionality of the ALTO server is to collect information from
 what we call "information sources".  It is not surprising that there are many
 different information sources and thus we can describe a more complete service
-model for the server's side in [](#fig:alto-service-model).
+model for the server's side in [](#fig:alto-service-model), where the arrows
+indicate the direction of information flow.
 
 <!-- Figure: alto-service-model [[[ -->
 
@@ -24,16 +25,18 @@ model for the server's side in [](#fig:alto-service-model).
                             +--------+  Method #1 +---------------+
                    ALTO     |        | <----------+  Information  |
     +----------+  Protocol  |        |            |   Source #1   |
-    |   ALTO   | <--------> |        |            +---------------+
+    |   ALTO   | <--------- |        |            +---------------+
     |  Client  |            |        |
     +----------+            |        |  Method #2 +---------------+
-                            |  ALTO  | <----------+  Information  |
-                            | Server |            |   Source #2   |
-    +----------+   ALTO     |        |            +---------------+
-    |   ALTO   |  Protocol  |        |
-    |  Client  | <--------> |        |  Method #3 +---------------+
-    +----------+            |        | <----------+  Information  |
-                            |        |            |   Source #3   |
+                            |        | <----------+  Information  |
+        ...        ...      |  ALTO  |            |   Source #2   |
+                            | Server |            +---------------+
+    +----------+   ALTO     |        |
+    |   ALTO   |  Protocol  |        |    ...           ...
+    |  Client  | <--------- |        |
+    +----------+            |        |  Method #N +---------------+
+                            |        | <----------+  Information  |
+                            |        |            |   Source #N   |
                             +--------+            +---------------+
 ^[fig:alto-service-model::Service Model for an ALTO server]
 
