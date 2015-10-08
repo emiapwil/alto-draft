@@ -1,2 +1,15 @@
 
 - Adjust the tone of the document: It seems that RFCs are quite straight-forward
+
+Hi Sebastian,
+
+[Our draft] is originally motivated to help ALTO servers aggregate information from different sources.  In the current version it mainly focuses on the "active" mode where the servers are pulling information from the sources.  Hence we extend ALTO to support the distribution of information on the sources' side.  Another approach is to enable the "passive" mode where ALTO servers announce the information they can consume so that sources can "push" the corresponding data to them.  This "passive" mode is not specified in the draft but is discussed in Section 4.2 as a future work.
+
+Meanwhile, we have some thoughts on the discovery mechanism too.  At first the we had a section on IRD but there was not enough time to finish the part before the submission so we decide to remove it.  The basic idea is to enable filtering on IRD.  For example, a multi-homed ALTO client may want to get the cost between two endpoints which should be measured by Round Trip Time (RTT) from two ALTO servers so it can choose the corresponding network interface.  Then this client can query the ALTO IRD for a list of information services with this particular capability.
+
+At the same time, an ALTO server should also be able to pull/push meta data to/from other ALTO servers.  In this way, the ALTO services themselves, as one kind of network information, can be distributed and aggregated.  We also think of (but haven't started) using current network protocols such as DHCP, DNS and maybe SSDP to help the clients discover the service providers.
+
+I believe a real ALTO implementation which can take advantage of all these features might be very helpful.
+
+
+
